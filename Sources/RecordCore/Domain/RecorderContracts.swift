@@ -171,6 +171,7 @@ public enum RecorderEvent: Equatable, Sendable {
     case pauseRecording
     case resumeRecording
     case stopRecording
+    case discardRecording
     case exportRequested
     case exportSucceeded(URL)
     case exportFailed(String)

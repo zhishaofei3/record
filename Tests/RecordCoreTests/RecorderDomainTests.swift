@@ -87,6 +87,16 @@ final class RecorderDomainTests: XCTestCase {
         XCTAssertEqual(machine.phase, .awaitingExportPath)
     }
 
+    func testStateMachineAllowsDiscardingStoppedRecording() throws {
+        var machine = RecorderStateMachine(phase: .previewReady)
+
+        try machine.transition(.startRecording)
+        try machine.transition(.stopRecording)
+        try machine.transition(.discardRecording)
+
+        XCTAssertEqual(machine.phase, .previewReady)
+    }
+
     func testStateMachineCanRecoverFromExportError() throws {
         var machine = RecorderStateMachine(phase: .previewReady)
 

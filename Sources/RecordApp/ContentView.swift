@@ -134,8 +134,13 @@ struct ContentView: View {
                     }
 
                     if viewModel.needsExportPath {
-                        Button("Choose Save Location") {
+                        Button("Save Recording") {
                             Task { await viewModel.chooseSaveLocation() }
+                        }
+                        .buttonStyle(.bordered)
+
+                        Button("Discard Recording") {
+                            Task { await viewModel.discardPendingRecording() }
                         }
                         .buttonStyle(.bordered)
                     }

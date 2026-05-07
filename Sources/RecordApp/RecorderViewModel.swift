@@ -188,6 +188,24 @@ final class RecorderViewModel: ObservableObject {
         }
     }
 
+    func discardPendingRecording() async {
+        guard let pendingExportURL else {
+            return
+        }
+
+        await engine.discardTemporaryRecording(at: pendingExportURL)
+        self.pendingExportURL = nil
+
+        do {
+            try stateMachine.transition(.discardRecording)
+            phase = stateMachine.phase
+        } catch {
+            resetToPreviewReadyIfPossible()
+        }
+
+        statusMessage = "Recording discarded."
+    }
+
     private func bootstrap() async {
         do {
             let bootstrap = try await engine.prepare(requestedResolution: selectedResolution)
@@ -264,8 +282,7 @@ final class RecorderViewModel: ObservableObject {
             pendingExportURL = temporaryURL
             try stateMachine.transition(.stopRecording)
             phase = stateMachine.phase
-            statusMessage = "Recording stopped. Choose where to save the mp4 file."
-            await chooseSaveLocation()
+            statusMessage = "Recording stopped. Choose whether to save or discard this take."
         } catch {
             resetToPreviewReadyIfPossible()
             statusMessage = readableMessage(for: error)
