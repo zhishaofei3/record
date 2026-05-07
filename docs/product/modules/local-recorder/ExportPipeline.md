@@ -8,7 +8,6 @@
 |------|------|------|------|
 | → | 触发 | [RecordingWorkspace](RecordingWorkspace.md) | 回传路径确认、导出成功或失败状态 |
 | ← | 依赖 | [RecordingWorkspace](RecordingWorkspace.md) | 由工作台在停止录制后触发导出 |
-| ← | 依赖 | [BackgroundProcessor](BackgroundProcessor.md) | 需要拿到最终应写入 mp4 的视频输出 |
 
 ## 功能
 

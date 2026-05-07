@@ -8,11 +8,9 @@
 |------|------|------|------|
 | → | 依赖 | [DeviceSelector](DeviceSelector.md) | 录制开始前需要确定摄像头与麦克风输入 |
 | → | 依赖 | [ResolutionProfile](ResolutionProfile.md) | 录制开始前需要确定输出分辨率 |
-| → | 依赖 | [BackgroundProcessor](BackgroundProcessor.md) | 需要统一管理虚拟背景的预览和导出效果 |
 | → | 依赖 | [ExportPipeline](ExportPipeline.md) | 停止录制后通过导出管线完成 mp4 写入 |
 | ← | 被依赖 | [DeviceSelector](DeviceSelector.md) | 设备选择结果回流到工作台状态 |
 | ← | 被依赖 | [ResolutionProfile](ResolutionProfile.md) | 分辨率能力判断回流到工作台状态 |
-| ← | 被依赖 | [BackgroundProcessor](BackgroundProcessor.md) | 背景处理状态回流到工作台提示和最终输出 |
 | ← | 被依赖 | [ExportPipeline](ExportPipeline.md) | 导出成功或失败状态回流到工作台 |
 
 ## 功能
@@ -24,9 +22,9 @@
 ```text
 +--------------------------------------------------------------+
 | Preview Canvas                                               |
-| [ live camera / white background preview ]                   |
+| [ live camera preview ]                                      |
 +--------------------------------------------------------------+
-| Camera | Mic | Resolution | Virtual Background | Record Btn  |
+| Camera | Mic | Resolution | Record Btn | Pause / Resume      |
 +--------------------------------------------------------------+
 | Status / Error / Export Result                               |
 +--------------------------------------------------------------+
@@ -36,7 +34,6 @@
 
 - 任意时刻只能存在一个活跃录制会话。
 - 录制开始后，摄像头和麦克风选择必须锁定，直到会话结束。
-- 当虚拟背景开启时，预览与导出必须保持同一效果语义。
 - 导出前必须确认保存路径，不能自动写入未确认位置。
 
 ## 状态机
@@ -94,4 +91,4 @@
 ## 已知限制
 
 - 当前界面仅通过状态徽标提示录制状态，不显示录制时长。
-- 尚无 `4K + 虚拟背景` 在低性能设备上的真实性能基线。
+- 高分辨率录制的真实性能仍依赖具体摄像头和机器负载。
