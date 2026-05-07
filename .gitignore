@@ -1,7 +1,9 @@
 .DS_Store
 .agents/
 .build/
+dist/
 DerivedData/
+.vscode/
 xcuserdata/
 *.xcuserstate
 *.xccheckout
