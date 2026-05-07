@@ -1,6 +1,6 @@
 # Record
 
-Record is a native macOS camera recorder built with SwiftUI, AVFoundation, and Vision. It captures camera video and microphone audio, supports camera and microphone selection, offers `720p`, `1080p`, and `4K` presets with downgrade feedback, and exports `mp4` files. When virtual background is enabled, Record applies person segmentation and replaces the background with solid white in both the live preview and the exported file.
+Record is a native macOS camera recorder built with SwiftUI and AVFoundation. It captures camera video and microphone audio, supports camera and microphone selection, offers `720p`, `1080p`, and `4K` presets with downgrade feedback, and exports `mp4` files.
 
 ## Features
 
@@ -8,14 +8,13 @@ Record is a native macOS camera recorder built with SwiftUI, AVFoundation, and V
 - Live camera preview during recording
 - Camera and microphone device selection before recording
 - Resolution presets: `720p`, `1080p`, `4K`
-- White virtual background with Vision person segmentation
 - `mp4` export with save path selection after recording stops
 - Automatic Finder reveal after export completes
 
 ## Project Layout
 
 - `Package.swift`: Swift Package entry point for `RecordCore` and `RecordApp`
-- `Sources/RecordCore`: capture engine, domain contracts, and segmentation pipeline
+- `Sources/RecordCore`: capture engine and recording domain contracts
 - `Sources/RecordApp`: SwiftUI app shell and workspace UI
 - `Tests/RecordCoreTests`: focused tests for resolution fallback and state transitions
 - `scripts/generate_xcodeproj.rb`: regenerates the Xcode project

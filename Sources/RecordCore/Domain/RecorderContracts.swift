@@ -147,20 +147,17 @@ public struct RecorderConfiguration: Equatable, Sendable {
     public let audioDeviceID: String
     public let requestedResolution: ResolutionPreset
     public let actualResolution: ResolutionPreset
-    public let virtualBackgroundEnabled: Bool
 
     public init(
         videoDeviceID: String,
         audioDeviceID: String,
         requestedResolution: ResolutionPreset,
-        actualResolution: ResolutionPreset,
-        virtualBackgroundEnabled: Bool
+        actualResolution: ResolutionPreset
     ) {
         self.videoDeviceID = videoDeviceID
         self.audioDeviceID = audioDeviceID
         self.requestedResolution = requestedResolution
         self.actualResolution = actualResolution
-        self.virtualBackgroundEnabled = virtualBackgroundEnabled
     }
 }
 

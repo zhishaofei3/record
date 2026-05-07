@@ -1,4 +1,5 @@
 import AVFoundation
+import AVFoundation
 import AppKit
 import Foundation
 import RecordCore
@@ -7,14 +8,12 @@ import UniformTypeIdentifiers
 
 @MainActor
 final class RecorderViewModel: ObservableObject {
-    @Published var previewImage: NSImage?
     @Published var videoDevices: [DeviceDescriptor] = []
     @Published var audioDevices: [DeviceDescriptor] = []
     @Published var selectedVideoDeviceID = ""
     @Published var selectedAudioDeviceID = ""
     @Published var selectedResolution: ResolutionPreset = .p1080
     @Published var resolutionSupport = ResolutionSupportMatrix(supportedPresets: [])
-    @Published var virtualBackgroundEnabled = false
     @Published var phase: RecordingPhase = .booting
     @Published var statusMessage = "Initializing camera and microphone access..."
 
@@ -24,12 +23,6 @@ final class RecorderViewModel: ObservableObject {
     private var keyboardMonitor: Any?
 
     init() {
-        engine.previewHandler = { [weak self] image in
-            self?.previewImage = image
-        }
-        engine.messageHandler = { [weak self] message in
-            self?.statusMessage = message
-        }
         keyboardMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
             guard event.keyCode == 50 else {
                 return event
@@ -262,8 +255,7 @@ final class RecorderViewModel: ObservableObject {
                 videoDeviceID: selectedVideoDeviceID,
                 audioDeviceID: selectedAudioDeviceID,
                 requestedResolution: selectedResolution,
-                actualResolution: selectedResolution,
-                virtualBackgroundEnabled: virtualBackgroundEnabled
+                actualResolution: selectedResolution
             )
             let decision = try await engine.startRecording(configuration: configuration)
             selectedResolution = decision.actual

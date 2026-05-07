@@ -1,22 +1,15 @@
 @preconcurrency import AVFoundation
 import AppKit
-import CoreImage
 import CoreMedia
 import Foundation
 
 public final class RecorderEngine: NSObject, @unchecked Sendable {
-    public var previewHandler: ((NSImage) -> Void)?
-    public var messageHandler: ((String) -> Void)?
     public var previewSession: AVCaptureSession { session }
 
-    private let performanceProfile: RecordingPerformanceProfile
     private let session = AVCaptureSession()
     private let videoOutput = AVCaptureVideoDataOutput()
     private let audioOutput = AVCaptureAudioDataOutput()
     private let mediaQueue = DispatchQueue(label: "record.capture.engine")
-    private let ciContext = CIContext()
-    private let segmentationProcessor: PersonSegmentationProcessor
-    private let colorSpace = CGColorSpaceCreateDeviceRGB()
 
     private var activeVideoInput: AVCaptureDeviceInput?
     private var activeAudioInput: AVCaptureDeviceInput?
@@ -25,16 +18,12 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
     private var selectedVideoDeviceID: String?
     private var selectedAudioDeviceID: String?
     private var currentResolutionDecision = ResolutionDecision(requested: .p1080, actual: .p1080, message: nil)
-    private var virtualBackgroundEnabled = false
-    private var lastPreviewTimestamp = CFAbsoluteTimeGetCurrent()
-    private var didReportSegmentationFailure = false
     private var recordingSession: RecordingSession?
 
     private final class RecordingSession: @unchecked Sendable {
         let writer: AVAssetWriter
         let videoInput: AVAssetWriterInput
         let audioInput: AVAssetWriterInput
-        let adaptor: AVAssetWriterInputPixelBufferAdaptor
         let tempURL: URL
         let resolution: ResolutionPreset
         var sessionStarted = false
@@ -54,24 +43,18 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             writer: AVAssetWriter,
             videoInput: AVAssetWriterInput,
             audioInput: AVAssetWriterInput,
-            adaptor: AVAssetWriterInputPixelBufferAdaptor,
             tempURL: URL,
             resolution: ResolutionPreset
         ) {
             self.writer = writer
             self.videoInput = videoInput
             self.audioInput = audioInput
-            self.adaptor = adaptor
             self.tempURL = tempURL
             self.resolution = resolution
         }
     }
 
-    public override init() {
-        performanceProfile = .current
-        segmentationProcessor = PersonSegmentationProcessor(profile: performanceProfile)
-        super.init()
-    }
+    public override init() { super.init() }
 
     deinit {
         session.stopRunning()
@@ -139,38 +122,15 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
                 audioDeviceID: configuration.audioDeviceID,
                 requestedPreset: configuration.requestedResolution
             )
-            let performanceAdjustedDecision = self.performanceProfile.adjustedDecision(
-                for: bootstrap.resolutionDecision,
-                virtualBackgroundEnabled: configuration.virtualBackgroundEnabled
-            )
-            let finalBootstrap: RecorderBootstrap
-            if performanceAdjustedDecision.actual != bootstrap.resolutionDecision.actual {
-                finalBootstrap = try self.applyConfiguration(
-                    videoDeviceID: configuration.videoDeviceID,
-                    audioDeviceID: configuration.audioDeviceID,
-                    requestedPreset: performanceAdjustedDecision.actual
-                )
-            } else {
-                finalBootstrap = bootstrap
-            }
-            let finalDecision = ResolutionDecision(
-                requested: configuration.requestedResolution,
-                actual: finalBootstrap.resolutionDecision.actual,
-                message: performanceAdjustedDecision.message
-            )
-
-            self.virtualBackgroundEnabled = configuration.virtualBackgroundEnabled
-            self.didReportSegmentationFailure = false
-            self.segmentationProcessor.reset()
 
             guard self.recordingSession == nil else {
                 throw RecorderEngineError.recordingAlreadyActive
             }
 
-            let session = try self.makeRecordingSession(for: finalDecision.actual)
+            let session = try self.makeRecordingSession(for: bootstrap.resolutionDecision.actual)
             self.recordingSession = session
 
-            return finalDecision
+            return bootstrap.resolutionDecision
         }
     }
 
@@ -377,9 +337,6 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
                 session.sessionPreset = decision.actual.sessionPreset
             }
 
-            if selectedVideoDeviceID != videoDevice.uniqueID || currentResolutionDecision.actual != decision.actual {
-                segmentationProcessor.reset()
-            }
         }
 
         selectedVideoDeviceID = videoDevice.uniqueID
@@ -443,15 +400,6 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
         let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
         videoInput.expectsMediaDataInRealTime = true
 
-        let adaptor = AVAssetWriterInputPixelBufferAdaptor(
-            assetWriterInput: videoInput,
-            sourcePixelBufferAttributes: [
-                kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA),
-                kCVPixelBufferWidthKey as String: dimensions.width,
-                kCVPixelBufferHeightKey as String: dimensions.height
-            ]
-        )
-
         let audioInput = AVAssetWriterInput(mediaType: .audio, outputSettings: audioSettings)
         audioInput.expectsMediaDataInRealTime = true
 
@@ -481,46 +429,12 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             writer: writer,
             videoInput: videoInput,
             audioInput: audioInput,
-            adaptor: adaptor,
             tempURL: tempURL,
             resolution: preset
         )
     }
 
     private func processVideoSampleBuffer(_ sampleBuffer: CMSampleBuffer) {
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            return
-        }
-
-        let isRecording = recordingSession != nil && !(recordingSession?.isPaused ?? false)
-        let now = CFAbsoluteTimeGetCurrent()
-        if !isRecording, now - lastPreviewTimestamp < performanceProfile.previewFrameInterval {
-            return
-        }
-
-        if !virtualBackgroundEnabled && !isRecording {
-            return
-        }
-
-        let outputImage: CIImage
-        do {
-            outputImage = try segmentationProcessor.makeOutputImage(
-                from: pixelBuffer,
-                virtualBackgroundEnabled: virtualBackgroundEnabled
-            )
-        } catch {
-            outputImage = CIImage(cvPixelBuffer: pixelBuffer)
-            if virtualBackgroundEnabled, !didReportSegmentationFailure {
-                didReportSegmentationFailure = true
-                let handler = messageHandler
-                DispatchQueue.main.async {
-                    handler?("Virtual background processing failed. Recording continues with the original camera image.")
-                }
-            }
-        }
-
-        emitPreviewImageIfNeeded(from: outputImage)
-
         guard let recordingSession else {
             return
         }
@@ -529,41 +443,21 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             return
         }
 
-        let presentationTime = adjustedPresentationTime(
-            for: sampleBuffer,
-            in: recordingSession,
-            mediaType: .video
+        let adjustedBuffer = sampleBuffer.copyingWithAdjustedTime(
+            adjustedPresentationTime(for: sampleBuffer, in: recordingSession, mediaType: .video)
         )
+        let presentationTime = CMSampleBufferGetPresentationTimeStamp(adjustedBuffer)
         if !recordingSession.sessionStarted {
             recordingSession.writer.startWriting()
             recordingSession.writer.startSession(atSourceTime: presentationTime)
             recordingSession.sessionStarted = true
         }
 
-        guard
-            recordingSession.videoInput.isReadyForMoreMediaData,
-            let pixelBufferPool = recordingSession.adaptor.pixelBufferPool
-        else {
+        guard recordingSession.videoInput.isReadyForMoreMediaData else {
             return
         }
 
-        var outputBuffer: CVPixelBuffer?
-        CVPixelBufferPoolCreatePixelBuffer(nil, pixelBufferPool, &outputBuffer)
-
-        guard let outputBuffer else {
-            return
-        }
-
-        render(
-            outputImage,
-            into: outputBuffer,
-            targetSize: CGSize(
-                width: recordingSession.resolution.dimensions.width,
-                height: recordingSession.resolution.dimensions.height
-            )
-        )
-
-        _ = recordingSession.adaptor.append(outputBuffer, withPresentationTime: presentationTime)
+        _ = recordingSession.videoInput.append(adjustedBuffer)
     }
 
     private func processAudioSampleBuffer(_ sampleBuffer: CMSampleBuffer) {
@@ -583,33 +477,6 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             adjustedPresentationTime(for: sampleBuffer, in: recordingSession, mediaType: .audio)
         )
         _ = recordingSession.audioInput.append(adjustedBuffer)
-    }
-
-    private func emitPreviewImageIfNeeded(from image: CIImage) {
-        let now = CFAbsoluteTimeGetCurrent()
-        guard now - lastPreviewTimestamp >= performanceProfile.previewFrameInterval else {
-            return
-        }
-        lastPreviewTimestamp = now
-
-        let previewRect = CGRect(origin: .zero, size: performanceProfile.previewSize)
-        let previewImage = imageAspectFill(image, in: previewRect).cropped(to: previewRect)
-
-        guard let cgImage = ciContext.createCGImage(previewImage, from: previewRect) else {
-            return
-        }
-
-        let image = NSImage(cgImage: cgImage, size: NSSize(width: previewRect.width, height: previewRect.height))
-        let handler = previewHandler
-        DispatchQueue.main.async {
-            handler?(image)
-        }
-    }
-
-    private func render(_ image: CIImage, into pixelBuffer: CVPixelBuffer, targetSize: CGSize) {
-        let targetRect = CGRect(origin: .zero, size: targetSize)
-        let outputImage = imageAspectFill(image, in: targetRect).cropped(to: targetRect)
-        ciContext.render(outputImage, to: pixelBuffer, bounds: targetRect, colorSpace: colorSpace)
     }
 
     private func adjustedPresentationTime(
@@ -680,17 +547,6 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
         default:
             return .zero
         }
-    }
-
-    private func imageAspectFill(_ image: CIImage, in targetRect: CGRect) -> CIImage {
-        let scale = max(
-            targetRect.width / image.extent.width,
-            targetRect.height / image.extent.height
-        )
-        let scaled = image.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
-        let x = targetRect.origin.x + (targetRect.width - scaled.extent.width) / 2 - scaled.extent.origin.x
-        let y = targetRect.origin.y + (targetRect.height - scaled.extent.height) / 2 - scaled.extent.origin.y
-        return scaled.transformed(by: CGAffineTransform(translationX: x, y: y))
     }
 
     private func requireSelectedVideoDeviceID() throws -> String {

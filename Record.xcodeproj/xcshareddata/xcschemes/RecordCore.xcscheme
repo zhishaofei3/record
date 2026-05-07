@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "50F4AEAD3BDCD12CDC69193C"
+               BlueprintIdentifier = "E872C28B0D8A3A45DEBA3942"
                BuildableName = "RecordCore.framework"
                BlueprintName = "RecordCore"
                ReferencedContainer = "container:Record.xcodeproj">

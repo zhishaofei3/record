@@ -31,23 +31,6 @@ struct ContentView: View {
             CameraPreviewView(session: viewModel.previewSession)
                 .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
 
-            if viewModel.virtualBackgroundEnabled, let image = viewModel.previewImage {
-                Image(nsImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-            }
-
-            if viewModel.virtualBackgroundEnabled && viewModel.previewImage == nil {
-                VStack(spacing: 12) {
-                    Image(systemName: "video")
-                        .font(.system(size: 48, weight: .semibold))
-                        .foregroundStyle(.white.opacity(0.7))
-                    Text("Warming up virtual background")
-                        .foregroundStyle(.white.opacity(0.82))
-                }
-            }
-
             VStack {
                 HStack {
                     statusBadge
@@ -105,18 +88,8 @@ struct ContentView: View {
                 }
             }
 
-            configCard(title: "Effects & Export") {
+            configCard(title: "Recording") {
                 VStack(alignment: .leading, spacing: 16) {
-                    Toggle(isOn: $viewModel.virtualBackgroundEnabled) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("White virtual background")
-                            Text("Applies person segmentation and keeps the effect in the exported mp4.")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                    .toggleStyle(.switch)
-
                     Button {
                         Task { await viewModel.toggleRecording() }
                     } label: {
