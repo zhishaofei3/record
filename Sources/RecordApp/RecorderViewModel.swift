@@ -60,6 +60,14 @@ final class RecorderViewModel: ObservableObject {
         return "Start Recording"
     }
 
+    var selectedVideoDeviceName: String {
+        videoDevices.first(where: { $0.id == selectedVideoDeviceID })?.name ?? "Unavailable"
+    }
+
+    var selectedAudioDeviceName: String {
+        audioDevices.first(where: { $0.id == selectedAudioDeviceID })?.name ?? "Unavailable"
+    }
+
     func availability(for preset: ResolutionPreset) -> ResolutionAvailability {
         resolutionSupport.availability(for: preset)
     }

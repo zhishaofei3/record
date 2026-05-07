@@ -232,16 +232,24 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             mediaType: .video,
             position: .unspecified
         )
+        let defaultVideoID = AVCaptureDevice.default(for: .video)?.uniqueID
         availableVideoDevices = videoDiscovery.devices
-            .sorted(by: { $0.localizedName < $1.localizedName })
+            .sorted(by: { lhs, rhs in
+                deviceSortKey(for: lhs, preferredID: defaultVideoID)
+                    < deviceSortKey(for: rhs, preferredID: defaultVideoID)
+            })
 
         let audioDiscovery = AVCaptureDevice.DiscoverySession(
             deviceTypes: [.microphone],
             mediaType: .audio,
             position: .unspecified
         )
+        let defaultAudioID = AVCaptureDevice.default(for: .audio)?.uniqueID
         availableAudioDevices = audioDiscovery.devices
-            .sorted(by: { $0.localizedName < $1.localizedName })
+            .sorted(by: { lhs, rhs in
+                deviceSortKey(for: lhs, preferredID: defaultAudioID)
+                    < deviceSortKey(for: rhs, preferredID: defaultAudioID)
+            })
     }
 
     private func applyConfiguration(
@@ -510,6 +518,21 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
         }
 
         return ResolutionSupportMatrix(supportedPresets: supportedPresets)
+    }
+
+    private func deviceSortKey(for device: AVCaptureDevice, preferredID: String?) -> (Int, String) {
+        if device.uniqueID == preferredID {
+            return (0, device.localizedName)
+        }
+
+        switch device.deviceType {
+        case .builtInWideAngleCamera, .microphone:
+            return (1, device.localizedName)
+        case .external:
+            return (3, device.localizedName)
+        default:
+            return (2, device.localizedName)
+        }
     }
 }
 
