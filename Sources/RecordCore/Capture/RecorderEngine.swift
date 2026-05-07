@@ -351,6 +351,13 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             AVVideoWidthKey: dimensions.width,
             AVVideoHeightKey: dimensions.height
         ]
+        let audioSettings = (audioOutput.recommendedAudioSettingsForAssetWriter(writingTo: .mp4) as? [String: Any]) ??
+            [
+                AVFormatIDKey: kAudioFormatMPEG4AAC,
+                AVNumberOfChannelsKey: 1,
+                AVSampleRateKey: 48_000,
+                AVEncoderBitRateKey: 128_000
+            ]
 
         let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
         videoInput.expectsMediaDataInRealTime = true
@@ -364,11 +371,26 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             ]
         )
 
-        let audioInput = AVAssetWriterInput(mediaType: .audio, outputSettings: nil)
+        let audioInput = AVAssetWriterInput(mediaType: .audio, outputSettings: audioSettings)
         audioInput.expectsMediaDataInRealTime = true
 
-        guard writer.canAdd(videoInput), writer.canAdd(audioInput) else {
-            throw RecorderEngineError.cannotCreateWriter
+        let canApplyVideo = writer.canApply(outputSettings: videoSettings, forMediaType: .video)
+        let canApplyAudio = writer.canApply(outputSettings: audioSettings, forMediaType: .audio)
+
+        guard canApplyVideo else {
+            throw RecorderEngineError.cannotCreateWriter(reason: "The selected MPEG-4 video settings are unsupported on this Mac.")
+        }
+
+        guard canApplyAudio else {
+            throw RecorderEngineError.cannotCreateWriter(reason: "The selected MPEG-4 audio settings are unsupported on this Mac.")
+        }
+
+        guard writer.canAdd(videoInput) else {
+            throw RecorderEngineError.cannotCreateWriter(reason: "The MP4 writer rejected the video input.")
+        }
+
+        guard writer.canAdd(audioInput) else {
+            throw RecorderEngineError.cannotCreateWriter(reason: "The MP4 writer rejected the audio input.")
         }
 
         writer.add(videoInput)
@@ -566,7 +588,7 @@ public enum RecorderEngineError: LocalizedError {
     case noVideoDevice
     case noAudioDevice
     case cannotConfigureInputs
-    case cannotCreateWriter
+    case cannotCreateWriter(reason: String)
     case recordingAlreadyActive
     case recordingNotActive
     case noVideoFramesCaptured
@@ -581,8 +603,8 @@ public enum RecorderEngineError: LocalizedError {
             return "No microphone device is available."
         case .cannotConfigureInputs:
             return "The selected camera or microphone could not be configured."
-        case .cannotCreateWriter:
-            return "The MP4 writer could not be created."
+        case .cannotCreateWriter(let reason):
+            return reason
         case .recordingAlreadyActive:
             return "A recording session is already active."
         case .recordingNotActive:
