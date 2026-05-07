@@ -35,7 +35,12 @@ final class RecorderViewModel: ObservableObject {
     }
 
     var canStartRecording: Bool {
-        phase == .previewReady || phase == .exportComplete(URL(fileURLWithPath: "/dev/null"))
+        switch phase {
+        case .previewReady, .exportComplete:
+            return true
+        default:
+            return false
+        }
     }
 
     var isRecording: Bool {
@@ -76,8 +81,8 @@ final class RecorderViewModel: ObservableObject {
         do {
             let bootstrap = try await engine.selectVideoDevice(id: id, requestedResolution: selectedResolution)
             applyBootstrap(bootstrap)
+            resetToPreviewReadyIfPossible()
         } catch {
-            phase = .error(error.localizedDescription)
             statusMessage = error.localizedDescription
         }
     }
@@ -86,8 +91,8 @@ final class RecorderViewModel: ObservableObject {
         do {
             let bootstrap = try await engine.selectAudioDevice(id: id, requestedResolution: selectedResolution)
             applyBootstrap(bootstrap)
+            resetToPreviewReadyIfPossible()
         } catch {
-            phase = .error(error.localizedDescription)
             statusMessage = error.localizedDescription
         }
     }
@@ -103,8 +108,10 @@ final class RecorderViewModel: ObservableObject {
     func toggleRecording() async {
         if isRecording {
             await stopRecording()
-        } else {
+        } else if canStartRecording {
             await startRecording()
+        } else {
+            statusMessage = "Camera preview is not ready yet. Wait for preview or reselect a working camera and microphone."
         }
     }
 
@@ -186,8 +193,8 @@ final class RecorderViewModel: ObservableObject {
             selectedResolution = decision.actual
             statusMessage = decision.message ?? "Recording in progress..."
         } catch {
-            phase = .error(error.localizedDescription)
-            statusMessage = error.localizedDescription
+            resetToPreviewReadyIfPossible()
+            statusMessage = readableMessage(for: error)
         }
     }
 
@@ -200,8 +207,8 @@ final class RecorderViewModel: ObservableObject {
             statusMessage = "Recording stopped. Choose where to save the mp4 file."
             await chooseSaveLocation()
         } catch {
-            phase = .error(error.localizedDescription)
-            statusMessage = error.localizedDescription
+            resetToPreviewReadyIfPossible()
+            statusMessage = readableMessage(for: error)
         }
     }
 
@@ -209,5 +216,24 @@ final class RecorderViewModel: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd-HHmmss"
         return "Record-\(formatter.string(from: Date())).mp4"
+    }
+
+    private func resetToPreviewReadyIfPossible() {
+        guard !selectedVideoDeviceID.isEmpty, !selectedAudioDeviceID.isEmpty else {
+            return
+        }
+        stateMachine = RecorderStateMachine(phase: .previewReady)
+        phase = .previewReady
+    }
+
+    private func readableMessage(for error: Error) -> String {
+        if let stateError = error as? RecorderStateMachineError {
+            switch stateError {
+            case .invalidTransition:
+                return "Recording can only start after preview is ready. Verify the selected camera and microphone, then try again."
+            }
+        }
+
+        return error.localizedDescription
     }
 }

@@ -121,6 +121,7 @@ struct ContentView: View {
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     .tint(viewModel.isRecording ? .orange : .red)
+                    .disabled(!viewModel.isRecording && !viewModel.canStartRecording)
 
                     if viewModel.needsExportPath {
                         Button("Choose Save Location") {
@@ -139,6 +140,7 @@ struct ContentView: View {
                 .font(.callout)
                 .foregroundStyle(.primary)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .textSelection(.enabled)
 
             VStack(alignment: .trailing, spacing: 6) {
                 Text("Recording mode")
