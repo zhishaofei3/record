@@ -20,6 +20,7 @@ final class RecorderViewModel: ObservableObject {
     private let engine = RecorderEngine()
     private var stateMachine = RecorderStateMachine()
     private var pendingExportURL: URL?
+    private var keyboardMonitor: Any?
 
     init() {
         engine.previewHandler = { [weak self] image in
@@ -27,6 +28,16 @@ final class RecorderViewModel: ObservableObject {
         }
         engine.messageHandler = { [weak self] message in
             self?.statusMessage = message
+        }
+        keyboardMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            guard event.keyCode == 50 else {
+                return event
+            }
+
+            Task { @MainActor in
+                await self?.handlePauseResumeShortcut()
+            }
+            return nil
         }
 
         Task {
@@ -50,19 +61,38 @@ final class RecorderViewModel: ObservableObject {
         return false
     }
 
+    var isPaused: Bool {
+        if case .paused = phase {
+            return true
+        }
+        return false
+    }
+
+    var hasActiveRecordingSession: Bool {
+        isRecording || isPaused
+    }
+
     var needsExportPath: Bool {
-        pendingExportURL != nil && !isRecording
+        pendingExportURL != nil && !hasActiveRecordingSession
     }
 
     var canConfigureDevices: Bool {
-        !isRecording
+        !hasActiveRecordingSession
     }
 
     var primaryButtonTitle: String {
-        if isRecording {
+        if hasActiveRecordingSession {
             return "Stop Recording"
         }
         return "Start Recording"
+    }
+
+    var pauseResumeButtonTitle: String {
+        isPaused ? "Resume (`)" : "Pause (`)"
+    }
+
+    var canPauseResume: Bool {
+        isRecording || isPaused
     }
 
     var selectedVideoDeviceName: String {
@@ -106,12 +136,20 @@ final class RecorderViewModel: ObservableObject {
     }
 
     func toggleRecording() async {
-        if isRecording {
+        if hasActiveRecordingSession {
             await stopRecording()
         } else if canStartRecording {
             await startRecording()
         } else {
             statusMessage = "Camera preview is not ready yet. Wait for preview or reselect a working camera and microphone."
+        }
+    }
+
+    func togglePauseResume() async {
+        if isPaused {
+            await resumeRecording()
+        } else if isRecording {
+            await pauseRecording()
         }
     }
 
@@ -198,6 +236,28 @@ final class RecorderViewModel: ObservableObject {
         }
     }
 
+    private func pauseRecording() async {
+        do {
+            try await engine.pauseRecording()
+            try stateMachine.transition(.pauseRecording)
+            phase = stateMachine.phase
+            statusMessage = "Recording paused. Press ` to resume."
+        } catch {
+            statusMessage = readableMessage(for: error)
+        }
+    }
+
+    private func resumeRecording() async {
+        do {
+            try await engine.resumeRecording()
+            try stateMachine.transition(.resumeRecording)
+            phase = stateMachine.phase
+            statusMessage = "Recording resumed."
+        } catch {
+            statusMessage = readableMessage(for: error)
+        }
+    }
+
     private func stopRecording() async {
         do {
             let temporaryURL = try await engine.stopRecording()
@@ -216,6 +276,13 @@ final class RecorderViewModel: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd-HHmmss"
         return "Record-\(formatter.string(from: Date())).mp4"
+    }
+
+    private func handlePauseResumeShortcut() async {
+        guard canPauseResume else {
+            return
+        }
+        await togglePauseResume()
     }
 
     private func resetToPreviewReadyIfPossible() {

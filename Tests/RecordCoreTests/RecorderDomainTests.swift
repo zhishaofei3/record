@@ -66,6 +66,27 @@ final class RecorderDomainTests: XCTestCase {
         XCTAssertEqual(machine.phase, .exportComplete(outputURL))
     }
 
+    func testStateMachineSupportsPauseAndResumeFlow() throws {
+        var machine = RecorderStateMachine(phase: .previewReady)
+
+        try machine.transition(.startRecording)
+        try machine.transition(.pauseRecording)
+        XCTAssertEqual(machine.phase, .paused)
+
+        try machine.transition(.resumeRecording)
+        XCTAssertEqual(machine.phase, .recording)
+    }
+
+    func testStateMachineAllowsStoppingWhilePaused() throws {
+        var machine = RecorderStateMachine(phase: .previewReady)
+
+        try machine.transition(.startRecording)
+        try machine.transition(.pauseRecording)
+        try machine.transition(.stopRecording)
+
+        XCTAssertEqual(machine.phase, .awaitingExportPath)
+    }
+
     func testStateMachineCanRecoverFromExportError() throws {
         var machine = RecorderStateMachine(phase: .previewReady)
 

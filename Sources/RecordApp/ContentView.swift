@@ -121,7 +121,17 @@ struct ContentView: View {
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     .tint(viewModel.isRecording ? .orange : .red)
-                    .disabled(!viewModel.isRecording && !viewModel.canStartRecording)
+                    .disabled(!viewModel.hasActiveRecordingSession && !viewModel.canStartRecording)
+
+                    if viewModel.canPauseResume {
+                        Button {
+                            Task { await viewModel.togglePauseResume() }
+                        } label: {
+                            Text(viewModel.pauseResumeButtonTitle)
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.bordered)
+                    }
 
                     if viewModel.needsExportPath {
                         Button("Choose Save Location") {
@@ -187,6 +197,8 @@ struct ContentView: View {
             return "Preview Ready"
         case .recording:
             return "Recording"
+        case .paused:
+            return "Paused"
         case .awaitingExportPath:
             return "Awaiting Export Path"
         case .exporting:
@@ -206,6 +218,8 @@ struct ContentView: View {
             return .mint
         case .recording:
             return .red
+        case .paused:
+            return .orange
         case .awaitingExportPath:
             return .orange
         case .exporting:

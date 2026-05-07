@@ -157,6 +157,7 @@ public enum RecordingPhase: Equatable, Sendable {
     case booting
     case previewReady
     case recording
+    case paused
     case awaitingExportPath
     case exporting
     case exportComplete(URL)
@@ -167,6 +168,8 @@ public enum RecorderEvent: Equatable, Sendable {
     case bootSucceeded
     case bootFailed(String)
     case startRecording
+    case pauseRecording
+    case resumeRecording
     case stopRecording
     case exportRequested
     case exportSucceeded(URL)

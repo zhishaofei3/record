@@ -39,6 +39,17 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
         let tempURL: URL
         let resolution: ResolutionPreset
         var sessionStarted = false
+        var isPaused = false
+        var awaitingVideoResumeAlignment = false
+        var awaitingAudioResumeAlignment = false
+        var videoTimeOffset: CMTime = .zero
+        var audioTimeOffset: CMTime = .zero
+        var videoResumeReferencePTS: CMTime?
+        var audioResumeReferencePTS: CMTime?
+        var lastVideoPTS: CMTime?
+        var lastAudioPTS: CMTime?
+        var lastVideoDuration: CMTime = .zero
+        var lastAudioDuration: CMTime = .zero
 
         init(
             writer: AVAssetWriter,
@@ -140,6 +151,44 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             self.recordingSession = session
 
             return bootstrap.resolutionDecision
+        }
+    }
+
+    public func pauseRecording() async throws {
+        try await runOnQueue {
+            guard let session = self.recordingSession else {
+                throw RecorderEngineError.recordingNotActive
+            }
+
+            guard !session.isPaused else {
+                throw RecorderEngineError.recordingAlreadyPaused
+            }
+
+            session.isPaused = true
+            session.videoResumeReferencePTS = self.makeResumeReference(
+                lastPTS: session.lastVideoPTS,
+                lastDuration: session.lastVideoDuration
+            )
+            session.audioResumeReferencePTS = self.makeResumeReference(
+                lastPTS: session.lastAudioPTS,
+                lastDuration: session.lastAudioDuration
+            )
+        }
+    }
+
+    public func resumeRecording() async throws {
+        try await runOnQueue {
+            guard let session = self.recordingSession else {
+                throw RecorderEngineError.recordingNotActive
+            }
+
+            guard session.isPaused else {
+                throw RecorderEngineError.recordingNotPaused
+            }
+
+            session.isPaused = false
+            session.awaitingVideoResumeAlignment = session.videoResumeReferencePTS != nil
+            session.awaitingAudioResumeAlignment = session.audioResumeReferencePTS != nil
         }
     }
 
@@ -351,7 +400,7 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             AVVideoWidthKey: dimensions.width,
             AVVideoHeightKey: dimensions.height
         ]
-        let audioSettings = (audioOutput.recommendedAudioSettingsForAssetWriter(writingTo: .mp4) as? [String: Any]) ??
+        let audioSettings = audioOutput.recommendedAudioSettingsForAssetWriter(writingTo: .mp4) ??
             [
                 AVFormatIDKey: kAudioFormatMPEG4AAC,
                 AVNumberOfChannelsKey: 1,
@@ -411,7 +460,7 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             return
         }
 
-        let isRecording = recordingSession != nil
+        let isRecording = recordingSession != nil && !(recordingSession?.isPaused ?? false)
         let now = CFAbsoluteTimeGetCurrent()
         if !isRecording, now - lastPreviewTimestamp < previewFrameInterval {
             return
@@ -440,7 +489,15 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             return
         }
 
-        let presentationTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+        guard !recordingSession.isPaused else {
+            return
+        }
+
+        let presentationTime = adjustedPresentationTime(
+            for: sampleBuffer,
+            in: recordingSession,
+            mediaType: .video
+        )
         if !recordingSession.sessionStarted {
             recordingSession.writer.startWriting()
             recordingSession.writer.startSession(atSourceTime: presentationTime)
@@ -478,11 +535,18 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             return
         }
 
+        guard !recordingSession.isPaused else {
+            return
+        }
+
         guard recordingSession.sessionStarted, recordingSession.audioInput.isReadyForMoreMediaData else {
             return
         }
 
-        _ = recordingSession.audioInput.append(sampleBuffer)
+        let adjustedBuffer = sampleBuffer.copyingWithAdjustedTime(
+            adjustedPresentationTime(for: sampleBuffer, in: recordingSession, mediaType: .audio)
+        )
+        _ = recordingSession.audioInput.append(adjustedBuffer)
     }
 
     private func emitPreviewImageIfNeeded(from image: CIImage) {
@@ -510,6 +574,76 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
         let targetRect = CGRect(origin: .zero, size: targetSize)
         let outputImage = imageAspectFill(image, in: targetRect).cropped(to: targetRect)
         ciContext.render(outputImage, to: pixelBuffer, bounds: targetRect, colorSpace: colorSpace)
+    }
+
+    private func adjustedPresentationTime(
+        for sampleBuffer: CMSampleBuffer,
+        in session: RecordingSession,
+        mediaType: AVMediaType
+    ) -> CMTime {
+        let rawPTS = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+        let sampleDuration = sampleDurationForBuffer(sampleBuffer, mediaType: mediaType)
+
+        switch mediaType {
+        case .video:
+            if session.awaitingVideoResumeAlignment, let reference = session.videoResumeReferencePTS {
+                let pauseGap = rawPTS - reference
+                if pauseGap > .zero {
+                    session.videoTimeOffset = session.videoTimeOffset + pauseGap
+                }
+                session.awaitingVideoResumeAlignment = false
+                session.videoResumeReferencePTS = nil
+            }
+
+            let adjustedPTS = rawPTS - session.videoTimeOffset
+            session.lastVideoPTS = adjustedPTS
+            session.lastVideoDuration = sampleDuration
+            return adjustedPTS
+
+        case .audio:
+            if session.awaitingAudioResumeAlignment, let reference = session.audioResumeReferencePTS {
+                let pauseGap = rawPTS - reference
+                if pauseGap > .zero {
+                    session.audioTimeOffset = session.audioTimeOffset + pauseGap
+                }
+                session.awaitingAudioResumeAlignment = false
+                session.audioResumeReferencePTS = nil
+            }
+
+            let adjustedPTS = rawPTS - session.audioTimeOffset
+            session.lastAudioPTS = adjustedPTS
+            session.lastAudioDuration = sampleDuration
+            return adjustedPTS
+
+        default:
+            return rawPTS
+        }
+    }
+
+    private func makeResumeReference(lastPTS: CMTime?, lastDuration: CMTime) -> CMTime? {
+        guard let lastPTS else {
+            return nil
+        }
+        let safeDuration = lastDuration.isValid && lastDuration > .zero
+            ? lastDuration
+            : CMTime(value: 1, timescale: 30)
+        return lastPTS + safeDuration
+    }
+
+    private func sampleDurationForBuffer(_ sampleBuffer: CMSampleBuffer, mediaType: AVMediaType) -> CMTime {
+        let duration = CMSampleBufferGetDuration(sampleBuffer)
+        if duration.isValid, duration > .zero {
+            return duration
+        }
+
+        switch mediaType {
+        case .video:
+            return CMTime(value: 1, timescale: 30)
+        case .audio:
+            return CMTime(value: 1024, timescale: 48_000)
+        default:
+            return .zero
+        }
     }
 
     private func imageAspectFill(_ image: CIImage, in targetRect: CGRect) -> CIImage {
@@ -590,7 +724,9 @@ public enum RecorderEngineError: LocalizedError {
     case cannotConfigureInputs
     case cannotCreateWriter(reason: String)
     case recordingAlreadyActive
+    case recordingAlreadyPaused
     case recordingNotActive
+    case recordingNotPaused
     case noVideoFramesCaptured
 
     public var errorDescription: String? {
@@ -607,10 +743,68 @@ public enum RecorderEngineError: LocalizedError {
             return reason
         case .recordingAlreadyActive:
             return "A recording session is already active."
+        case .recordingAlreadyPaused:
+            return "Recording is already paused."
         case .recordingNotActive:
             return "No active recording session exists."
+        case .recordingNotPaused:
+            return "Recording is not paused."
         case .noVideoFramesCaptured:
             return "No video frames were captured before recording stopped."
         }
+    }
+}
+
+private extension CMSampleBuffer {
+    func copyingWithAdjustedTime(_ presentationTime: CMTime) -> CMSampleBuffer {
+        var timingInfoCount: CMItemCount = 0
+        CMSampleBufferGetSampleTimingInfoArray(
+            self,
+            entryCount: 0,
+            arrayToFill: nil,
+            entriesNeededOut: &timingInfoCount
+        )
+
+        guard timingInfoCount > 0 else {
+            return self
+        }
+
+        var timingInfo = Array(
+            repeating: CMSampleTimingInfo(duration: .invalid, presentationTimeStamp: .invalid, decodeTimeStamp: .invalid),
+            count: timingInfoCount
+        )
+
+        CMSampleBufferGetSampleTimingInfoArray(
+            self,
+            entryCount: timingInfoCount,
+            arrayToFill: &timingInfo,
+            entriesNeededOut: &timingInfoCount
+        )
+
+        let originalPTS = timingInfo.first?.presentationTimeStamp ?? .zero
+        let delta = presentationTime - originalPTS
+        for index in timingInfo.indices {
+            if timingInfo[index].presentationTimeStamp.isValid {
+                timingInfo[index].presentationTimeStamp = timingInfo[index].presentationTimeStamp + delta
+            }
+            if timingInfo[index].decodeTimeStamp.isValid {
+                timingInfo[index].decodeTimeStamp = timingInfo[index].decodeTimeStamp + delta
+            }
+        }
+
+        var adjustedBuffer: CMSampleBuffer?
+        let status = CMSampleBufferCreateCopyWithNewTiming(
+            allocator: kCFAllocatorDefault,
+            sampleBuffer: self,
+            sampleTimingEntryCount: timingInfoCount,
+            sampleTimingArray: &timingInfo,
+            sampleBufferOut: &adjustedBuffer
+        )
+
+        if status == noErr, let adjustedBuffer {
+            return adjustedBuffer
+        }
+
+        return self
     }
 }

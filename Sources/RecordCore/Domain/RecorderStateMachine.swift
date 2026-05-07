@@ -20,7 +20,12 @@ public struct RecorderStateMachine: Sendable {
         case (.previewReady, .startRecording),
              (.exportComplete, .startRecording):
             phase = .recording
-        case (.recording, .stopRecording):
+        case (.recording, .pauseRecording):
+            phase = .paused
+        case (.paused, .resumeRecording):
+            phase = .recording
+        case (.recording, .stopRecording),
+             (.paused, .stopRecording):
             phase = .awaitingExportPath
         case (.awaitingExportPath, .exportRequested),
              (.error, .exportRequested):
