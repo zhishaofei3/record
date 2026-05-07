@@ -12,10 +12,12 @@ final class PersonSegmentationProcessor {
     }()
     private var lastMaskImage: CIImage?
     private var lastSegmentationTimestamp: CFAbsoluteTime = 0
+    private var hasWarmedUpMask = false
 
     func reset() {
         lastMaskImage = nil
         lastSegmentationTimestamp = 0
+        hasWarmedUpMask = false
     }
 
     func makeOutputImage(from pixelBuffer: CVPixelBuffer, virtualBackgroundEnabled: Bool) throws -> CIImage {
@@ -35,9 +37,14 @@ final class PersonSegmentationProcessor {
 
             lastMaskImage = CIImage(cvPixelBuffer: maskObservation.pixelBuffer)
             lastSegmentationTimestamp = now
+
+            if !hasWarmedUpMask {
+                hasWarmedUpMask = true
+                return sourceImage
+            }
         }
 
-        guard let maskImage = lastMaskImage else {
+        guard hasWarmedUpMask, let maskImage = lastMaskImage else {
             return sourceImage
         }
 
