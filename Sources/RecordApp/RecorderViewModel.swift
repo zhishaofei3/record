@@ -193,6 +193,21 @@ final class RecorderViewModel: ObservableObject {
             return
         }
 
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        alert.messageText = "Discard this recording?"
+        alert.informativeText = "This will permanently delete the current take that has not been saved yet."
+        alert.addButton(withTitle: "Discard Recording")
+        alert.addButton(withTitle: "Cancel")
+        alert.buttons.first?.keyEquivalent = "\r"
+        alert.buttons.last?.keyEquivalent = "\u{1b}"
+
+        let response = alert.runModal()
+        guard response == .alertFirstButtonReturn else {
+            statusMessage = "Discard cancelled."
+            return
+        }
+
         await engine.discardTemporaryRecording(at: pendingExportURL)
         self.pendingExportURL = nil
 
