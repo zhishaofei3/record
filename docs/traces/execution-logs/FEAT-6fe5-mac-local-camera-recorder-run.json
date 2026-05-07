@@ -1,0 +1,98 @@
+{
+  "feat_id": "FEAT-6fe5-mac-local-camera-recorder",
+  "task_level": "FEATURE",
+  "started_at": "2026-05-07T08:01:51Z",
+  "ended_at": "2026-05-07T09:40:00Z",
+  "baseline_hashes": {
+    "docs/product/PRODUCT-MAP.md": "15d69bc3",
+    "docs/product/modules/local-recorder/index.md": "98291aec",
+    "docs/product/modules/local-recorder/RecordingWorkspace.md": "a000eeff"
+  },
+  "phases": [
+    {
+      "phase": 0,
+      "skill": "pipeline",
+      "decision": "Classified the work as FEATURE and selected a native macOS SwiftUI plus AVFoundation implementation path.",
+      "artifacts": [
+        "docs/traces/FEAT-6fe5-mac-local-camera-recorder.md",
+        "CLAUDE.md",
+        "docs/product/PRODUCT-MAP.md"
+      ],
+      "notes": "Greenfield repository; implementation starts from a new product map and native app skeleton."
+    },
+    {
+      "phase": 2,
+      "skill": "architect",
+      "decision": "Defined recorder domain contracts, state machine, and OpenSpec for capture, export, and fallback behavior.",
+      "artifacts": [
+        "docs/specs/FEAT-6fe5-mac-local-camera-recorder.spec.md",
+        "Sources/RecordCore/Domain/RecorderContracts.swift",
+        "Sources/RecordCore/Domain/RecorderStateMachine.swift"
+      ],
+      "notes": "Spec encoded export-path-after-stop flow and resolution downgrade behavior."
+    },
+    {
+      "phase": 3,
+      "skill": "qa",
+      "decision": "Added focused domain tests for resolution fallback and recording state transitions.",
+      "artifacts": [
+        "Tests/RecordCoreTests/RecorderDomainTests.swift"
+      ],
+      "notes": "7 unit tests cover downgrade, invalid transitions, and export flow."
+    },
+    {
+      "phase": 4,
+      "skill": "coder",
+      "decision": "Implemented the Swift Package app, AVFoundation recorder engine, Vision background processor, and SwiftUI workspace.",
+      "artifacts": [
+        "Package.swift",
+        "Sources/RecordCore/Processing/PersonSegmentationProcessor.swift",
+        "Sources/RecordCore/Capture/RecorderEngine.swift",
+        "Sources/RecordApp/RecordApp.swift",
+        "Sources/RecordApp/RecorderViewModel.swift",
+        "Sources/RecordApp/ContentView.swift"
+      ],
+      "notes": "Completed in 2 iterations after resolving Swift 6 concurrency and contract issues."
+    },
+    {
+      "phase": 5,
+      "skill": "audit",
+      "decision": "Accepted the implementation with documented packaging and performance risks, then extended the project with Xcode and local-run validation.",
+      "artifacts": [
+        "docs/audit/FEAT-6fe5-mac-local-camera-recorder-audit.md"
+      ],
+      "notes": "Audit score 88/100."
+    },
+    {
+      "phase": 6,
+      "skill": "update-map",
+      "decision": "Updated product component docs, trace ADR, and CSV indices to reflect the delivered behavior and open-source packaging work.",
+      "artifacts": [
+        "docs/product/modules/local-recorder/index.md",
+        "docs/product/modules/local-recorder/RecordingWorkspace.md",
+        "docs/product/modules/local-recorder/ResolutionProfile.md",
+        "docs/product/modules/local-recorder/BackgroundProcessor.md",
+        "docs/product/modules/local-recorder/ExportPipeline.md",
+        "README.md",
+        "LICENSE",
+        ".gitignore",
+        "Record.xcodeproj/project.pbxproj",
+        "scripts/generate_xcodeproj.rb",
+        "docs/traces/index.csv",
+        "docs/traces/files.csv",
+        "docs/traces/tests.csv",
+        "docs/traces/tech_debt.csv"
+      ],
+      "notes": "Documented fail-open background fallback, temporary-file export design, and local Xcode run path."
+    },
+    {
+      "phase": 6.5,
+      "skill": "learn",
+      "decision": "Captured one reusable learning about the temp-file export pattern for AVAssetWriter.",
+      "artifacts": [
+        "docs/learnings/project.jsonl"
+      ],
+      "notes": "Best-effort learning persisted."
+    }
+  ]
+}

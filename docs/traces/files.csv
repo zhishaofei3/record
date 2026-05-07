@@ -1,0 +1,14 @@
+feat_id,path,desc,lines
+FEAT-6fe5-mac-local-camera-recorder,Package.swift,Swift Package manifest for RecordCore and RecordApp,30
+FEAT-6fe5-mac-local-camera-recorder,.gitignore,Open-source ignore rules excluding local agent and build artifacts,11
+FEAT-6fe5-mac-local-camera-recorder,LICENSE,MIT open-source license,21
+FEAT-6fe5-mac-local-camera-recorder,README.md,Repository overview usage and signing notes,59
+FEAT-6fe5-mac-local-camera-recorder,Record.xcodeproj/project.pbxproj,Generated Xcode project for app framework and tests,668
+FEAT-6fe5-mac-local-camera-recorder,Sources/RecordCore/Domain/RecorderContracts.swift,Recorder contracts and shared capture/export types,175
+FEAT-6fe5-mac-local-camera-recorder,Sources/RecordCore/Domain/RecorderStateMachine.swift,Recording workflow state machine and transition guards,42
+FEAT-6fe5-mac-local-camera-recorder,Sources/RecordCore/Processing/PersonSegmentationProcessor.swift,Vision-based white background segmentation processor,43
+FEAT-6fe5-mac-local-camera-recorder,Sources/RecordCore/Capture/RecorderEngine.swift,AVFoundation capture engine preview and mp4 recording pipeline,560
+FEAT-6fe5-mac-local-camera-recorder,Sources/RecordApp/RecordApp.swift,SwiftUI app entry point,15
+FEAT-6fe5-mac-local-camera-recorder,Sources/RecordApp/RecorderViewModel.swift,Main UI state and export flow orchestration,205
+FEAT-6fe5-mac-local-camera-recorder,Sources/RecordApp/ContentView.swift,Recorder workspace interface and controls,247
+FEAT-6fe5-mac-local-camera-recorder,scripts/generate_xcodeproj.rb,Regenerates shared Xcode project and schemes,126

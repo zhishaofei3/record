@@ -1,0 +1,2 @@
+feat_id,td_id,priority,desc,added,resolved_by
+FEAT-6fe5-mac-local-camera-recorder,TD-6fe5-01,medium,Current delivery is a Swift Package GUI executable without an Xcode project or signed app bundle workflow.,2026-05-07,

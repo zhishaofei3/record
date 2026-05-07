@@ -1,0 +1,2 @@
+id,type,phase,module,component,title,keywords,status,author,date,file,depends_on,depended_by
+FEAT-6fe5-mac-local-camera-recorder,FEAT,trace,local-recorder,"RecordingWorkspace,DeviceSelector,ResolutionProfile,BackgroundProcessor,ExportPipeline",Mac 本地摄像头录制软件,"macos,camera,microphone,recording,mp4,virtual-background,white-background,resolution,4k,export",done,dev,2026-05-07,docs/traces/FEAT-6fe5-mac-local-camera-recorder.md,,

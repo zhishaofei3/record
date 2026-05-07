@@ -1,0 +1,1 @@
+{"feat_id":"FEAT-6fe5-mac-local-camera-recorder","date":"2026-05-07","topic":"avassetwriter-export-path","learning":"When the UX requires choosing the final save path only after recording stops, record to a temporary mp4 first and move it after the user confirms the destination. This avoids fighting AVAssetWriter's need for an output URL before writing begins."}
