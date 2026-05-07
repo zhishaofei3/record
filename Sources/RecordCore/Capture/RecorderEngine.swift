@@ -5,6 +5,9 @@ import CoreMedia
 import Foundation
 
 public final class RecorderEngine: NSObject, @unchecked Sendable {
+    private let previewFrameInterval: CFTimeInterval = 1.0 / 15.0
+    private let previewSize = CGSize(width: 640, height: 360)
+
     public var previewHandler: ((NSImage) -> Void)?
     public var messageHandler: ((String) -> Void)?
 
@@ -127,6 +130,7 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
 
             self.virtualBackgroundEnabled = configuration.virtualBackgroundEnabled
             self.didReportSegmentationFailure = false
+            self.segmentationProcessor.reset()
 
             guard self.recordingSession == nil else {
                 throw RecorderEngineError.recordingAlreadyActive
@@ -297,6 +301,7 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             session.sessionPreset = decision.actual.sessionPreset
         }
 
+        segmentationProcessor.reset()
         selectedVideoDeviceID = videoDevice.uniqueID
         selectedAudioDeviceID = audioDevice.uniqueID
         currentResolutionDecision = decision
@@ -384,6 +389,12 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
             return
         }
 
+        let isRecording = recordingSession != nil
+        let now = CFAbsoluteTimeGetCurrent()
+        if !isRecording, now - lastPreviewTimestamp < previewFrameInterval {
+            return
+        }
+
         let outputImage: CIImage
         do {
             outputImage = try segmentationProcessor.makeOutputImage(
@@ -454,12 +465,12 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
 
     private func emitPreviewImageIfNeeded(from image: CIImage) {
         let now = CFAbsoluteTimeGetCurrent()
-        guard now - lastPreviewTimestamp >= (1.0 / 15.0) else {
+        guard now - lastPreviewTimestamp >= previewFrameInterval else {
             return
         }
         lastPreviewTimestamp = now
 
-        let previewRect = CGRect(origin: .zero, size: CGSize(width: 960, height: 540))
+        let previewRect = CGRect(origin: .zero, size: previewSize)
         let previewImage = imageAspectFill(image, in: previewRect).cropped(to: previewRect)
 
         guard let cgImage = ciContext.createCGImage(previewImage, from: previewRect) else {

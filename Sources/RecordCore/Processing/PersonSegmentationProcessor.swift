@@ -3,12 +3,20 @@ import Foundation
 import Vision
 
 final class PersonSegmentationProcessor {
+    private let minimumSegmentationInterval: CFTimeInterval = 1.0 / 12.0
     private let request: VNGeneratePersonSegmentationRequest = {
         let request = VNGeneratePersonSegmentationRequest()
-        request.qualityLevel = .balanced
+        request.qualityLevel = .fast
         request.outputPixelFormat = kCVPixelFormatType_OneComponent8
         return request
     }()
+    private var lastMaskImage: CIImage?
+    private var lastSegmentationTimestamp: CFAbsoluteTime = 0
+
+    func reset() {
+        lastMaskImage = nil
+        lastSegmentationTimestamp = 0
+    }
 
     func makeOutputImage(from pixelBuffer: CVPixelBuffer, virtualBackgroundEnabled: Bool) throws -> CIImage {
         let sourceImage = CIImage(cvPixelBuffer: pixelBuffer)
@@ -16,14 +24,23 @@ final class PersonSegmentationProcessor {
             return sourceImage
         }
 
-        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .up)
-        try handler.perform([request])
+        let now = CFAbsoluteTimeGetCurrent()
+        if lastMaskImage == nil || now - lastSegmentationTimestamp >= minimumSegmentationInterval {
+            let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .up)
+            try handler.perform([request])
 
-        guard let maskObservation = request.results?.first as? VNPixelBufferObservation else {
+            guard let maskObservation = request.results?.first as? VNPixelBufferObservation else {
+                return sourceImage
+            }
+
+            lastMaskImage = CIImage(cvPixelBuffer: maskObservation.pixelBuffer)
+            lastSegmentationTimestamp = now
+        }
+
+        guard let maskImage = lastMaskImage else {
             return sourceImage
         }
 
-        let maskImage = CIImage(cvPixelBuffer: maskObservation.pixelBuffer)
         let scaledMask = maskImage.transformed(by: CGAffineTransform(
             scaleX: sourceImage.extent.width / maskImage.extent.width,
             y: sourceImage.extent.height / maskImage.extent.height
