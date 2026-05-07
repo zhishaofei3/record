@@ -7,52 +7,54 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04372F019A9018D4E0B2FB39 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBA5430D03C09EB636DECE8F /* Cocoa.framework */; };
-		09406141255ADC6FF87649F1 /* RecorderContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97C8C3A16861460430DD435 /* RecorderContracts.swift */; };
-		176FE825C7309333AB6E90CE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBA5430D03C09EB636DECE8F /* Cocoa.framework */; };
-		2577B64F124D2F41FA1D4649 /* Vision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 988FF381DAAFD0E6062F004F /* Vision.framework */; };
-		2831B0155BE1A781B0E6908C /* RecordApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCC9D6A156969257FBAEAF8 /* RecordApp.swift */; };
-		28BB7AF144DA10C2D9DBAB68 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6F9A516292F38789E74BF5 /* AppKit.framework */; };
-		3297C19181346C04190B4736 /* RecordCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F548DE4B8632502324295D73 /* RecordCore.framework */; };
-		43A621C3668EBD7EFD7431C0 /* RecorderStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D09855380C706051DB04A7 /* RecorderStateMachine.swift */; };
-		4C052E0F2428B51853C56205 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFCFEB90DD835C7953B18E0 /* ContentView.swift */; };
-		53557C05C401D3142DDDEAB8 /* RecorderDomainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083BAD2596CF0C9EE61B662F /* RecorderDomainTests.swift */; };
-		59C64E73FC7D9B23AEAF6900 /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 878C6F1A8E8753F9BFE349E7 /* UniformTypeIdentifiers.framework */; };
-		70105DD73A3DAF596FBBA189 /* RecorderEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598FBBCADD8022287E1D5C00 /* RecorderEngine.swift */; };
-		91A457DDE6D3AC64B7966CD1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBA5430D03C09EB636DECE8F /* Cocoa.framework */; };
-		9AEA5DCD5ADDC2A0DDD50C4A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDEDE210388A3AF01626D0EC /* AVFoundation.framework */; };
-		ADF6C099B37D54EDBBB0BC55 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E57AC86FF249587200277E6 /* CoreImage.framework */; };
-		BB65F87DC31EFFD18FFDF649 /* RecordCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F548DE4B8632502324295D73 /* RecordCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CAA693946A293181CE130E3D /* PersonSegmentationProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0701FB208DF5061136A0F7F1 /* PersonSegmentationProcessor.swift */; };
-		D4DFFFE6211F6863A3394B66 /* RecordCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F548DE4B8632502324295D73 /* RecordCore.framework */; };
-		FCE720C3D7A763D44D75A724 /* RecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EFACF5ED024A86BA4E029D /* RecorderViewModel.swift */; };
+		0BD5ECDCA928406ED94982F2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C623AA23EF88B93EBD1E4D7C /* Cocoa.framework */; };
+		0F66E4152E8B84612B0F94D9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6C1102F6F08879134D3E9E /* AVFoundation.framework */; };
+		142635ECA4453C6100E8D394 /* RecordingPerformanceProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2601EC44D204C178B829E /* RecordingPerformanceProfileTests.swift */; };
+		1E001488F7EB1F107DC1A887 /* RecorderContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5935A7C6643386BFD3567A67 /* RecorderContracts.swift */; };
+		3694995F497EDE2B78BB09C1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0297F65164373FB2356FE389 /* AppKit.framework */; };
+		3A6730489D098B543E4A01BF /* RecordCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D36043E2F3DB6ED793DFCABF /* RecordCore.framework */; };
+		461E01BFF8EB9346C71B7043 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ABD652668872BD3C6AA471B /* CoreImage.framework */; };
+		4A8B76717B6AE897A233F12D /* PersonSegmentationProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73339F979BF8F415EFDC9C2 /* PersonSegmentationProcessor.swift */; };
+		5341A2E79967FF4B5CC8DCF6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C623AA23EF88B93EBD1E4D7C /* Cocoa.framework */; };
+		5DE696FDD224900D6976F1CE /* RecorderStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9B36D5B4CF3A60B1543E36 /* RecorderStateMachine.swift */; };
+		64D4404A5B284C04B7419408 /* RecorderEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F494749BB8A04A64FD848D60 /* RecorderEngine.swift */; };
+		79AD49B5B5E51432B3BDE646 /* Vision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16C094A29D5205FB81C960BD /* Vision.framework */; };
+		7CB0E95593528F6C58A22F33 /* RecordCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D36043E2F3DB6ED793DFCABF /* RecordCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		865C804413F601D91F1C2214 /* RecordingPerformanceProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784D6EB7D5EACEF0B8BEA2DA /* RecordingPerformanceProfile.swift */; };
+		8E91612964AD0F3D103A1DC4 /* RecorderDomainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7AC8AA5E855157E1AEB26E /* RecorderDomainTests.swift */; };
+		B182061F92DEDD4C5F3E3EF6 /* RecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464DC9BBDD0EAFDC543E55C7 /* RecorderViewModel.swift */; };
+		B26890AB8C0504C644FAB5F5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C623AA23EF88B93EBD1E4D7C /* Cocoa.framework */; };
+		B305FC449AFB0AB4469A2364 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EADB99EAF41682D4DBB567B /* ContentView.swift */; };
+		C3E78C1E9DB40DF2D7154B02 /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFD005AC7017132D6C07CA3 /* UniformTypeIdentifiers.framework */; };
+		C6D95AE79D48A16DE7F87D90 /* RecordCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D36043E2F3DB6ED793DFCABF /* RecordCore.framework */; };
+		F038A484296EA3BA212A0BA5 /* RecordApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C7583D4914E782E91A90C9 /* RecordApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0EED6647DD6F4BA025106953 /* PBXContainerItemProxy */ = {
+		37D312570BEB5B1A797BDFA4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7C57612FA7E5D6E8524280DC /* Project object */;
+			containerPortal = 1AD6B3BCC2596CFE1F33C641 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 20D203DF4CF9AC9CCE812EB8;
+			remoteGlobalIDString = 8D1D7A6DF8A54551DEB471AA;
 			remoteInfo = RecordCore;
 		};
-		5CA78369C0B890F4AF9B9F32 /* PBXContainerItemProxy */ = {
+		63DC23B4BD32F0AB3A1E592F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7C57612FA7E5D6E8524280DC /* Project object */;
+			containerPortal = 1AD6B3BCC2596CFE1F33C641 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 20D203DF4CF9AC9CCE812EB8;
+			remoteGlobalIDString = 8D1D7A6DF8A54551DEB471AA;
 			remoteInfo = RecordCore;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		696FACA090AFEB0341760722 /* Embed Frameworks */ = {
+		49FAC4B9B1C5B0CB5F12BA69 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BB65F87DC31EFFD18FFDF649 /* RecordCore.framework in Embed Frameworks */,
+				7CB0E95593528F6C58A22F33 /* RecordCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -60,143 +62,147 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0701FB208DF5061136A0F7F1 /* PersonSegmentationProcessor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PersonSegmentationProcessor.swift; path = Sources/RecordCore/Processing/PersonSegmentationProcessor.swift; sourceTree = "<group>"; };
-		083BAD2596CF0C9EE61B662F /* RecorderDomainTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderDomainTests.swift; path = Tests/RecordCoreTests/RecorderDomainTests.swift; sourceTree = "<group>"; };
-		0CFCFEB90DD835C7953B18E0 /* ContentView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = Sources/RecordApp/ContentView.swift; sourceTree = "<group>"; };
-		36F8CC89336F4239A94CB088 /* Record.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Record.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		47EFACF5ED024A86BA4E029D /* RecorderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderViewModel.swift; path = Sources/RecordApp/RecorderViewModel.swift; sourceTree = "<group>"; };
-		4BCC9D6A156969257FBAEAF8 /* RecordApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecordApp.swift; path = Sources/RecordApp/RecordApp.swift; sourceTree = "<group>"; };
-		598FBBCADD8022287E1D5C00 /* RecorderEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderEngine.swift; path = Sources/RecordCore/Capture/RecorderEngine.swift; sourceTree = "<group>"; };
-		5B6F9A516292F38789E74BF5 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = "<group>"; };
-		878C6F1A8E8753F9BFE349E7 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = "<group>"; };
-		988FF381DAAFD0E6062F004F /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vision.framework; path = System/Library/Frameworks/Vision.framework; sourceTree = "<group>"; };
-		9E57AC86FF249587200277E6 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = "<group>"; };
-		D028CC7398D94EFB51D50F49 /* RecordCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecordCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E97C8C3A16861460430DD435 /* RecorderContracts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderContracts.swift; path = Sources/RecordCore/Domain/RecorderContracts.swift; sourceTree = "<group>"; };
-		EBA5430D03C09EB636DECE8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		EDEDE210388A3AF01626D0EC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = "<group>"; };
-		F548DE4B8632502324295D73 /* RecordCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecordCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8D09855380C706051DB04A7 /* RecorderStateMachine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderStateMachine.swift; path = Sources/RecordCore/Domain/RecorderStateMachine.swift; sourceTree = "<group>"; };
+		0297F65164373FB2356FE389 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = "<group>"; };
+		0FFD005AC7017132D6C07CA3 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = "<group>"; };
+		16C094A29D5205FB81C960BD /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vision.framework; path = System/Library/Frameworks/Vision.framework; sourceTree = "<group>"; };
+		2EADB99EAF41682D4DBB567B /* ContentView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = Sources/RecordApp/ContentView.swift; sourceTree = "<group>"; };
+		2ED6E4C3913D6DFC341C9660 /* RecordCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecordCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		464DC9BBDD0EAFDC543E55C7 /* RecorderViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderViewModel.swift; path = Sources/RecordApp/RecorderViewModel.swift; sourceTree = "<group>"; };
+		5935A7C6643386BFD3567A67 /* RecorderContracts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderContracts.swift; path = Sources/RecordCore/Domain/RecorderContracts.swift; sourceTree = "<group>"; };
+		5C7AC8AA5E855157E1AEB26E /* RecorderDomainTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderDomainTests.swift; path = Tests/RecordCoreTests/RecorderDomainTests.swift; sourceTree = "<group>"; };
+		6A9B36D5B4CF3A60B1543E36 /* RecorderStateMachine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderStateMachine.swift; path = Sources/RecordCore/Domain/RecorderStateMachine.swift; sourceTree = "<group>"; };
+		784D6EB7D5EACEF0B8BEA2DA /* RecordingPerformanceProfile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecordingPerformanceProfile.swift; path = Sources/RecordCore/Processing/RecordingPerformanceProfile.swift; sourceTree = "<group>"; };
+		7ABD652668872BD3C6AA471B /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = "<group>"; };
+		7EAD78C4D42EDFDC65C3384C /* Record.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Record.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A6C1102F6F08879134D3E9E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = "<group>"; };
+		A4C7583D4914E782E91A90C9 /* RecordApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecordApp.swift; path = Sources/RecordApp/RecordApp.swift; sourceTree = "<group>"; };
+		C623AA23EF88B93EBD1E4D7C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		D36043E2F3DB6ED793DFCABF /* RecordCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecordCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3E2601EC44D204C178B829E /* RecordingPerformanceProfileTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecordingPerformanceProfileTests.swift; path = Tests/RecordCoreTests/RecordingPerformanceProfileTests.swift; sourceTree = "<group>"; };
+		D73339F979BF8F415EFDC9C2 /* PersonSegmentationProcessor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PersonSegmentationProcessor.swift; path = Sources/RecordCore/Processing/PersonSegmentationProcessor.swift; sourceTree = "<group>"; };
+		F494749BB8A04A64FD848D60 /* RecorderEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderEngine.swift; path = Sources/RecordCore/Capture/RecorderEngine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4F3B53C4247950254DEBCF94 /* Frameworks */ = {
+		6DE514A2EBF13CA319CE53B9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91A457DDE6D3AC64B7966CD1 /* Cocoa.framework in Frameworks */,
+				5341A2E79967FF4B5CC8DCF6 /* Cocoa.framework in Frameworks */,
+				3694995F497EDE2B78BB09C1 /* AppKit.framework in Frameworks */,
+				0F66E4152E8B84612B0F94D9 /* AVFoundation.framework in Frameworks */,
+				461E01BFF8EB9346C71B7043 /* CoreImage.framework in Frameworks */,
+				79AD49B5B5E51432B3BDE646 /* Vision.framework in Frameworks */,
+				C3E78C1E9DB40DF2D7154B02 /* UniformTypeIdentifiers.framework in Frameworks */,
+				3A6730489D098B543E4A01BF /* RecordCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A554D266EA3C90567E3D5F81 /* Frameworks */ = {
+		B4A3D227EB2D1A714512AA24 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04372F019A9018D4E0B2FB39 /* Cocoa.framework in Frameworks */,
-				28BB7AF144DA10C2D9DBAB68 /* AppKit.framework in Frameworks */,
-				9AEA5DCD5ADDC2A0DDD50C4A /* AVFoundation.framework in Frameworks */,
-				ADF6C099B37D54EDBBB0BC55 /* CoreImage.framework in Frameworks */,
-				2577B64F124D2F41FA1D4649 /* Vision.framework in Frameworks */,
-				59C64E73FC7D9B23AEAF6900 /* UniformTypeIdentifiers.framework in Frameworks */,
-				3297C19181346C04190B4736 /* RecordCore.framework in Frameworks */,
+				B26890AB8C0504C644FAB5F5 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FCA1B17EAFC8C01E91830B36 /* Frameworks */ = {
+		BDAA3F55C46889E6E426540C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				176FE825C7309333AB6E90CE /* Cocoa.framework in Frameworks */,
-				D4DFFFE6211F6863A3394B66 /* RecordCore.framework in Frameworks */,
+				0BD5ECDCA928406ED94982F2 /* Cocoa.framework in Frameworks */,
+				C6D95AE79D48A16DE7F87D90 /* RecordCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2DC587F73200A3C7D7BA19F0 /* Products */ = {
+		0F4DC03E3260F29ECC52A066 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F548DE4B8632502324295D73 /* RecordCore.framework */,
-				36F8CC89336F4239A94CB088 /* Record.app */,
-				D028CC7398D94EFB51D50F49 /* RecordCoreTests.xctest */,
+				D36043E2F3DB6ED793DFCABF /* RecordCore.framework */,
+				7EAD78C4D42EDFDC65C3384C /* Record.app */,
+				2ED6E4C3913D6DFC341C9660 /* RecordCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		788DC9FEE2E13BFF1D6A814F /* Tests */ = {
+		2D182F1F4843DFAF551BF591 /* RecordApp */ = {
 			isa = PBXGroup;
 			children = (
-				083BAD2596CF0C9EE61B662F /* RecorderDomainTests.swift */,
-			);
-			name = Tests;
-			sourceTree = "<group>";
-		};
-		8084A5E77EAC12CF58A6E125 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				DB5D2E574D1D386196022AF4 /* OS X */,
-				5B6F9A516292F38789E74BF5 /* AppKit.framework */,
-				EDEDE210388A3AF01626D0EC /* AVFoundation.framework */,
-				9E57AC86FF249587200277E6 /* CoreImage.framework */,
-				988FF381DAAFD0E6062F004F /* Vision.framework */,
-				878C6F1A8E8753F9BFE349E7 /* UniformTypeIdentifiers.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		966CAAA9A4DF3E279194046C = {
-			isa = PBXGroup;
-			children = (
-				2DC587F73200A3C7D7BA19F0 /* Products */,
-				8084A5E77EAC12CF58A6E125 /* Frameworks */,
-				788DC9FEE2E13BFF1D6A814F /* Tests */,
-				D74993BC853BA06693343703 /* Sources */,
-			);
-			sourceTree = "<group>";
-		};
-		BE42499154E56C4D71CE4B34 /* RecordApp */ = {
-			isa = PBXGroup;
-			children = (
-				0CFCFEB90DD835C7953B18E0 /* ContentView.swift */,
-				4BCC9D6A156969257FBAEAF8 /* RecordApp.swift */,
-				47EFACF5ED024A86BA4E029D /* RecorderViewModel.swift */,
+				2EADB99EAF41682D4DBB567B /* ContentView.swift */,
+				A4C7583D4914E782E91A90C9 /* RecordApp.swift */,
+				464DC9BBDD0EAFDC543E55C7 /* RecorderViewModel.swift */,
 			);
 			name = RecordApp;
 			sourceTree = "<group>";
 		};
-		CE5EAF787FEBBBA7BB22FB79 /* RecordCore */ = {
+		55690C47965609C5F2BA8DAD /* OS X */ = {
 			isa = PBXGroup;
 			children = (
-				598FBBCADD8022287E1D5C00 /* RecorderEngine.swift */,
-				E97C8C3A16861460430DD435 /* RecorderContracts.swift */,
-				F8D09855380C706051DB04A7 /* RecorderStateMachine.swift */,
-				0701FB208DF5061136A0F7F1 /* PersonSegmentationProcessor.swift */,
+				C623AA23EF88B93EBD1E4D7C /* Cocoa.framework */,
+			);
+			name = "OS X";
+			sourceTree = "<group>";
+		};
+		89F9CE4CAC2A07280F38889F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				55690C47965609C5F2BA8DAD /* OS X */,
+				0297F65164373FB2356FE389 /* AppKit.framework */,
+				9A6C1102F6F08879134D3E9E /* AVFoundation.framework */,
+				7ABD652668872BD3C6AA471B /* CoreImage.framework */,
+				16C094A29D5205FB81C960BD /* Vision.framework */,
+				0FFD005AC7017132D6C07CA3 /* UniformTypeIdentifiers.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C0F596DF37DFD7A72A5B9600 /* RecordCore */ = {
+			isa = PBXGroup;
+			children = (
+				F494749BB8A04A64FD848D60 /* RecorderEngine.swift */,
+				5935A7C6643386BFD3567A67 /* RecorderContracts.swift */,
+				6A9B36D5B4CF3A60B1543E36 /* RecorderStateMachine.swift */,
+				D73339F979BF8F415EFDC9C2 /* PersonSegmentationProcessor.swift */,
+				784D6EB7D5EACEF0B8BEA2DA /* RecordingPerformanceProfile.swift */,
 			);
 			name = RecordCore;
 			sourceTree = "<group>";
 		};
-		D74993BC853BA06693343703 /* Sources */ = {
+		C64E12C150D1B3C5F8E6C1BC /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				CE5EAF787FEBBBA7BB22FB79 /* RecordCore */,
-				BE42499154E56C4D71CE4B34 /* RecordApp */,
+				C0F596DF37DFD7A72A5B9600 /* RecordCore */,
+				2D182F1F4843DFAF551BF591 /* RecordApp */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
 		};
-		DB5D2E574D1D386196022AF4 /* OS X */ = {
+		F34659696BCD4B132C5E5C85 = {
 			isa = PBXGroup;
 			children = (
-				EBA5430D03C09EB636DECE8F /* Cocoa.framework */,
+				0F4DC03E3260F29ECC52A066 /* Products */,
+				89F9CE4CAC2A07280F38889F /* Frameworks */,
+				FDFFAD1EBCFB430C4D0FD1B9 /* Tests */,
+				C64E12C150D1B3C5F8E6C1BC /* Sources */,
 			);
-			name = "OS X";
+			sourceTree = "<group>";
+		};
+		FDFFAD1EBCFB430C4D0FD1B9 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				5C7AC8AA5E855157E1AEB26E /* RecorderDomainTests.swift */,
+				D3E2601EC44D204C178B829E /* RecordingPerformanceProfileTests.swift */,
+			);
+			name = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		7974CC1E788834B0F7E4A6C8 /* Headers */ = {
+		A6139AE9F8B277D762868B76 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -206,14 +212,33 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		20D203DF4CF9AC9CCE812EB8 /* RecordCore */ = {
+		3C0844F890F13A7550F07AA1 /* Record */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 60A07AE848902912C6E8F17D /* Build configuration list for PBXNativeTarget "RecordCore" */;
+			buildConfigurationList = 174FE2A32130E424ED652FFA /* Build configuration list for PBXNativeTarget "Record" */;
 			buildPhases = (
-				7974CC1E788834B0F7E4A6C8 /* Headers */,
-				8AB138BE7232D6D03B50ADB7 /* Sources */,
-				4F3B53C4247950254DEBCF94 /* Frameworks */,
-				EDCE3BAE22756CDF39DA3664 /* Resources */,
+				38FB55F0BE1255D67AE77899 /* Sources */,
+				6DE514A2EBF13CA319CE53B9 /* Frameworks */,
+				13A51C11443439F8D8367929 /* Resources */,
+				49FAC4B9B1C5B0CB5F12BA69 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5C1B876D368313507CE4B110 /* PBXTargetDependency */,
+			);
+			name = Record;
+			productName = Record;
+			productReference = 7EAD78C4D42EDFDC65C3384C /* Record.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8D1D7A6DF8A54551DEB471AA /* RecordCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B76EA7D9C03266D96A266A6 /* Build configuration list for PBXNativeTarget "RecordCore" */;
+			buildPhases = (
+				A6139AE9F8B277D762868B76 /* Headers */,
+				2338D818CB0A2EEAD3C60C90 /* Sources */,
+				B4A3D227EB2D1A714512AA24 /* Frameworks */,
+				8F4A1E3EB342E138B3C12CAB /* Resources */,
 			);
 			buildRules = (
 			);
@@ -221,56 +246,37 @@
 			);
 			name = RecordCore;
 			productName = RecordCore;
-			productReference = F548DE4B8632502324295D73 /* RecordCore.framework */;
+			productReference = D36043E2F3DB6ED793DFCABF /* RecordCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		2AF91A00AE85AFD00E609A09 /* RecordCoreTests */ = {
+		B024312B184B649035FB7F1A /* RecordCoreTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 383DACA31B318071703A4D6D /* Build configuration list for PBXNativeTarget "RecordCoreTests" */;
+			buildConfigurationList = F1B7D06F56DE190629650ABD /* Build configuration list for PBXNativeTarget "RecordCoreTests" */;
 			buildPhases = (
-				D19DCF5A79B45C12E528DE70 /* Sources */,
-				FCA1B17EAFC8C01E91830B36 /* Frameworks */,
-				F04F4D3154A1DE6A3D72F02F /* Resources */,
+				8D316DFF7BA52D87498C6F95 /* Sources */,
+				BDAA3F55C46889E6E426540C /* Frameworks */,
+				054E7F15612175B51938EED1 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				BF85782C3B6597A0C458302E /* PBXTargetDependency */,
+				57E033F5A7D098037AB816AE /* PBXTargetDependency */,
 			);
 			name = RecordCoreTests;
 			productName = RecordCoreTests;
-			productReference = D028CC7398D94EFB51D50F49 /* RecordCoreTests.xctest */;
+			productReference = 2ED6E4C3913D6DFC341C9660 /* RecordCoreTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		F3B209BABC7425A36B8D516F /* Record */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 28BF92DAF5A9DBD39022F19E /* Build configuration list for PBXNativeTarget "Record" */;
-			buildPhases = (
-				5B3A771E97C2DF5C71F17ECB /* Sources */,
-				A554D266EA3C90567E3D5F81 /* Frameworks */,
-				4840A7758AB035EECFF4831C /* Resources */,
-				696FACA090AFEB0341760722 /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AD9B86A1B272D0EE7ACE81FB /* PBXTargetDependency */,
-			);
-			name = Record;
-			productName = Record;
-			productReference = 36F8CC89336F4239A94CB088 /* Record.app */;
-			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		7C57612FA7E5D6E8524280DC /* Project object */ = {
+		1AD6B3BCC2596CFE1F33C641 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 2620;
 			};
-			buildConfigurationList = 2FF3836BECC8D57A8CEBF743 /* Build configuration list for PBXProject "Record" */;
+			buildConfigurationList = 8D9C4766F674C0A9B9707B97 /* Build configuration list for PBXProject "Record" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -278,36 +284,36 @@
 				en,
 				Base,
 			);
-			mainGroup = 966CAAA9A4DF3E279194046C;
+			mainGroup = F34659696BCD4B132C5E5C85;
 			minimizedProjectReferenceProxies = 0;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 2DC587F73200A3C7D7BA19F0 /* Products */;
+			productRefGroup = 0F4DC03E3260F29ECC52A066 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				20D203DF4CF9AC9CCE812EB8 /* RecordCore */,
-				F3B209BABC7425A36B8D516F /* Record */,
-				2AF91A00AE85AFD00E609A09 /* RecordCoreTests */,
+				8D1D7A6DF8A54551DEB471AA /* RecordCore */,
+				3C0844F890F13A7550F07AA1 /* Record */,
+				B024312B184B649035FB7F1A /* RecordCoreTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		4840A7758AB035EECFF4831C /* Resources */ = {
+		054E7F15612175B51938EED1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EDCE3BAE22756CDF39DA3664 /* Resources */ = {
+		13A51C11443439F8D8367929 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F04F4D3154A1DE6A3D72F02F /* Resources */ = {
+		8F4A1E3EB342E138B3C12CAB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -317,80 +323,110 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5B3A771E97C2DF5C71F17ECB /* Sources */ = {
+		2338D818CB0A2EEAD3C60C90 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C052E0F2428B51853C56205 /* ContentView.swift in Sources */,
-				2831B0155BE1A781B0E6908C /* RecordApp.swift in Sources */,
-				FCE720C3D7A763D44D75A724 /* RecorderViewModel.swift in Sources */,
+				64D4404A5B284C04B7419408 /* RecorderEngine.swift in Sources */,
+				1E001488F7EB1F107DC1A887 /* RecorderContracts.swift in Sources */,
+				5DE696FDD224900D6976F1CE /* RecorderStateMachine.swift in Sources */,
+				4A8B76717B6AE897A233F12D /* PersonSegmentationProcessor.swift in Sources */,
+				865C804413F601D91F1C2214 /* RecordingPerformanceProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8AB138BE7232D6D03B50ADB7 /* Sources */ = {
+		38FB55F0BE1255D67AE77899 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70105DD73A3DAF596FBBA189 /* RecorderEngine.swift in Sources */,
-				09406141255ADC6FF87649F1 /* RecorderContracts.swift in Sources */,
-				43A621C3668EBD7EFD7431C0 /* RecorderStateMachine.swift in Sources */,
-				CAA693946A293181CE130E3D /* PersonSegmentationProcessor.swift in Sources */,
+				B305FC449AFB0AB4469A2364 /* ContentView.swift in Sources */,
+				F038A484296EA3BA212A0BA5 /* RecordApp.swift in Sources */,
+				B182061F92DEDD4C5F3E3EF6 /* RecorderViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D19DCF5A79B45C12E528DE70 /* Sources */ = {
+		8D316DFF7BA52D87498C6F95 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53557C05C401D3142DDDEAB8 /* RecorderDomainTests.swift in Sources */,
+				8E91612964AD0F3D103A1DC4 /* RecorderDomainTests.swift in Sources */,
+				142635ECA4453C6100E8D394 /* RecordingPerformanceProfileTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AD9B86A1B272D0EE7ACE81FB /* PBXTargetDependency */ = {
+		57E033F5A7D098037AB816AE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = RecordCore;
-			target = 20D203DF4CF9AC9CCE812EB8 /* RecordCore */;
-			targetProxy = 0EED6647DD6F4BA025106953 /* PBXContainerItemProxy */;
+			target = 8D1D7A6DF8A54551DEB471AA /* RecordCore */;
+			targetProxy = 63DC23B4BD32F0AB3A1E592F /* PBXContainerItemProxy */;
 		};
-		BF85782C3B6597A0C458302E /* PBXTargetDependency */ = {
+		5C1B876D368313507CE4B110 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = RecordCore;
-			target = 20D203DF4CF9AC9CCE812EB8 /* RecordCore */;
-			targetProxy = 5CA78369C0B890F4AF9B9F32 /* PBXContainerItemProxy */;
+			target = 8D1D7A6DF8A54551DEB471AA /* RecordCore */;
+			targetProxy = 37D312570BEB5B1A797BDFA4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		5EB570F744DB3E91FAC4B521 /* Release */ = {
+		1A932DD47C339E7137A80A5F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "";
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGNING_ALLOWED = YES;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = NO;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Record needs camera access to preview and record video.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Record needs microphone access to capture audio.";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.shaofeizhi.record;
-				PRODUCT_MODULE_NAME = Record;
-				PRODUCT_NAME = Record;
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 6.0;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
-		77E867728B613EA9013FF3B9 /* Debug */ = {
+		28BB5F0ED64ACF1BA1892F32 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "";
@@ -417,35 +453,26 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
-		7C1FAB8B914C497875B99852 /* Debug */ = {
+		62B53EC9546870E9EC6206EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "";
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGNING_ALLOWED = YES;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				CODE_SIGN_STYLE = Manual;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGNING_ALLOWED = NO;
 				ENABLE_HARDENED_RUNTIME = NO;
-				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Record needs camera access to preview and record video.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Record needs microphone access to capture audio.";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.shaofeizhi.record;
-				PRODUCT_MODULE_NAME = Record;
-				PRODUCT_NAME = Record;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shaofeizhi.record.tests;
+				PRODUCT_NAME = RecordCoreTests;
 				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
-		8C4000E1F20CEE536AD12C24 /* Debug */ = {
+		65F189E4627F274B1DADD5E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -506,7 +533,33 @@
 			};
 			name = Debug;
 		};
-		9CE79F7D2CA836B82AB9FDD4 /* Release */ = {
+		709C3ABB29AF9E51140A6FD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGNING_ALLOWED = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Record needs camera access to preview and record video.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Record needs microphone access to capture audio.";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shaofeizhi.record;
+				PRODUCT_MODULE_NAME = Record;
+				PRODUCT_NAME = Record;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		7B24D10C9E840A7B8FC734EE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "";
@@ -523,78 +576,33 @@
 			};
 			name = Release;
 		};
-		A6B71A0F7FBD353BB2B82B3F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		C122BDE6C81032CE8F270209 /* Debug */ = {
+		EF63FAD0900B94D8100760C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "";
-				CODE_SIGNING_ALLOWED = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGNING_ALLOWED = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Record needs camera access to preview and record video.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Record needs microphone access to capture audio.";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.shaofeizhi.record.tests;
-				PRODUCT_NAME = RecordCoreTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shaofeizhi.record;
+				PRODUCT_MODULE_NAME = Record;
+				PRODUCT_NAME = Record;
 				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
-		C44A1510C4250C222AC5A8CE /* Release */ = {
+		EFB82F36010AC72B40DE0E0D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "";
@@ -621,48 +629,48 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		28BF92DAF5A9DBD39022F19E /* Build configuration list for PBXNativeTarget "Record" */ = {
+		174FE2A32130E424ED652FFA /* Build configuration list for PBXNativeTarget "Record" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5EB570F744DB3E91FAC4B521 /* Release */,
-				7C1FAB8B914C497875B99852 /* Debug */,
+				709C3ABB29AF9E51140A6FD6 /* Release */,
+				EF63FAD0900B94D8100760C4 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2FF3836BECC8D57A8CEBF743 /* Build configuration list for PBXProject "Record" */ = {
+		7B76EA7D9C03266D96A266A6 /* Build configuration list for PBXNativeTarget "RecordCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8C4000E1F20CEE536AD12C24 /* Debug */,
-				A6B71A0F7FBD353BB2B82B3F /* Release */,
+				28BB5F0ED64ACF1BA1892F32 /* Release */,
+				EFB82F36010AC72B40DE0E0D /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		383DACA31B318071703A4D6D /* Build configuration list for PBXNativeTarget "RecordCoreTests" */ = {
+		8D9C4766F674C0A9B9707B97 /* Build configuration list for PBXProject "Record" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9CE79F7D2CA836B82AB9FDD4 /* Release */,
-				C122BDE6C81032CE8F270209 /* Debug */,
+				65F189E4627F274B1DADD5E0 /* Debug */,
+				1A932DD47C339E7137A80A5F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		60A07AE848902912C6E8F17D /* Build configuration list for PBXNativeTarget "RecordCore" */ = {
+		F1B7D06F56DE190629650ABD /* Build configuration list for PBXNativeTarget "RecordCoreTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C44A1510C4250C222AC5A8CE /* Release */,
-				77E867728B613EA9013FF3B9 /* Debug */,
+				7B24D10C9E840A7B8FC734EE /* Release */,
+				62B53EC9546870E9EC6206EC /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 7C57612FA7E5D6E8524280DC /* Project object */;
+	rootObject = 1AD6B3BCC2596CFE1F33C641 /* Project object */;
 }

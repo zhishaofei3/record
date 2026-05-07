@@ -45,6 +45,17 @@ public enum ResolutionPreset: String, CaseIterable, Codable, Identifiable, Senda
     public static var descendingQuality: [ResolutionPreset] {
         [.p4K, .p1080, .p720]
     }
+
+    public var qualityRank: Int {
+        switch self {
+        case .p720:
+            return 0
+        case .p1080:
+            return 1
+        case .p4K:
+            return 2
+        }
+    }
 }
 
 public enum ResolutionAvailability: Equatable, Sendable {

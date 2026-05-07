@@ -3,16 +3,20 @@ import Foundation
 import Vision
 
 final class PersonSegmentationProcessor {
-    private let minimumSegmentationInterval: CFTimeInterval = 1.0 / 12.0
+    private let minimumSegmentationInterval: CFTimeInterval
     private let request: VNGeneratePersonSegmentationRequest = {
         let request = VNGeneratePersonSegmentationRequest()
-        request.qualityLevel = .fast
         request.outputPixelFormat = kCVPixelFormatType_OneComponent8
         return request
     }()
     private var lastMaskImage: CIImage?
     private var lastSegmentationTimestamp: CFAbsoluteTime = 0
     private var hasWarmedUpMask = false
+
+    init(profile: RecordingPerformanceProfile) {
+        minimumSegmentationInterval = profile.segmentationInterval
+        request.qualityLevel = profile.segmentationQuality
+    }
 
     func reset() {
         lastMaskImage = nil

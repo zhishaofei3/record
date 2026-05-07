@@ -5,18 +5,16 @@ import CoreMedia
 import Foundation
 
 public final class RecorderEngine: NSObject, @unchecked Sendable {
-    private let previewFrameInterval: CFTimeInterval = 1.0 / 15.0
-    private let previewSize = CGSize(width: 640, height: 360)
-
     public var previewHandler: ((NSImage) -> Void)?
     public var messageHandler: ((String) -> Void)?
 
+    private let performanceProfile: RecordingPerformanceProfile
     private let session = AVCaptureSession()
     private let videoOutput = AVCaptureVideoDataOutput()
     private let audioOutput = AVCaptureAudioDataOutput()
     private let mediaQueue = DispatchQueue(label: "record.capture.engine")
     private let ciContext = CIContext()
-    private let segmentationProcessor = PersonSegmentationProcessor()
+    private let segmentationProcessor: PersonSegmentationProcessor
     private let colorSpace = CGColorSpaceCreateDeviceRGB()
 
     private var activeVideoInput: AVCaptureDeviceInput?
@@ -69,6 +67,8 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
     }
 
     public override init() {
+        performanceProfile = .current
+        segmentationProcessor = PersonSegmentationProcessor(profile: performanceProfile)
         super.init()
     }
 
@@ -138,6 +138,25 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
                 audioDeviceID: configuration.audioDeviceID,
                 requestedPreset: configuration.requestedResolution
             )
+            let performanceAdjustedDecision = self.performanceProfile.adjustedDecision(
+                for: bootstrap.resolutionDecision,
+                virtualBackgroundEnabled: configuration.virtualBackgroundEnabled
+            )
+            let finalBootstrap: RecorderBootstrap
+            if performanceAdjustedDecision.actual != bootstrap.resolutionDecision.actual {
+                finalBootstrap = try self.applyConfiguration(
+                    videoDeviceID: configuration.videoDeviceID,
+                    audioDeviceID: configuration.audioDeviceID,
+                    requestedPreset: performanceAdjustedDecision.actual
+                )
+            } else {
+                finalBootstrap = bootstrap
+            }
+            let finalDecision = ResolutionDecision(
+                requested: configuration.requestedResolution,
+                actual: finalBootstrap.resolutionDecision.actual,
+                message: performanceAdjustedDecision.message
+            )
 
             self.virtualBackgroundEnabled = configuration.virtualBackgroundEnabled
             self.didReportSegmentationFailure = false
@@ -147,10 +166,10 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
                 throw RecorderEngineError.recordingAlreadyActive
             }
 
-            let session = try self.makeRecordingSession(for: bootstrap.resolutionDecision.actual)
+            let session = try self.makeRecordingSession(for: finalDecision.actual)
             self.recordingSession = session
 
-            return bootstrap.resolutionDecision
+            return finalDecision
         }
     }
 
@@ -462,7 +481,7 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
 
         let isRecording = recordingSession != nil && !(recordingSession?.isPaused ?? false)
         let now = CFAbsoluteTimeGetCurrent()
-        if !isRecording, now - lastPreviewTimestamp < previewFrameInterval {
+        if !isRecording, now - lastPreviewTimestamp < performanceProfile.previewFrameInterval {
             return
         }
 
@@ -551,12 +570,12 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
 
     private func emitPreviewImageIfNeeded(from image: CIImage) {
         let now = CFAbsoluteTimeGetCurrent()
-        guard now - lastPreviewTimestamp >= previewFrameInterval else {
+        guard now - lastPreviewTimestamp >= performanceProfile.previewFrameInterval else {
             return
         }
         lastPreviewTimestamp = now
 
-        let previewRect = CGRect(origin: .zero, size: previewSize)
+        let previewRect = CGRect(origin: .zero, size: performanceProfile.previewSize)
         let previewImage = imageAspectFill(image, in: previewRect).cropped(to: previewRect)
 
         guard let cgImage = ciContext.createCGImage(previewImage, from: previewRect) else {
