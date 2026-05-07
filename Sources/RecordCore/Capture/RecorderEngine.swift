@@ -7,6 +7,7 @@ import Foundation
 public final class RecorderEngine: NSObject, @unchecked Sendable {
     public var previewHandler: ((NSImage) -> Void)?
     public var messageHandler: ((String) -> Void)?
+    public var previewSession: AVCaptureSession { session }
 
     private let performanceProfile: RecordingPerformanceProfile
     private let session = AVCaptureSession()
@@ -398,7 +399,7 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
     private func configureOutputsIfNeeded() {
         if !session.outputs.contains(videoOutput) {
             videoOutput.videoSettings = [
-                kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)
+                kCVPixelBufferPixelFormatTypeKey as String: preferredVideoPixelFormat()
             ]
             videoOutput.alwaysDiscardsLateVideoFrames = true
             videoOutput.setSampleBufferDelegate(self, queue: mediaQueue)
@@ -425,11 +426,12 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
         let writer = try AVAssetWriter(outputURL: tempURL, fileType: .mp4)
         let dimensions = preset.dimensions
 
-        let videoSettings: [String: Any] = [
-            AVVideoCodecKey: AVVideoCodecType.h264,
-            AVVideoWidthKey: dimensions.width,
-            AVVideoHeightKey: dimensions.height
-        ]
+        let videoSettings = videoOutput.recommendedVideoSettingsForAssetWriter(writingTo: .mp4) ??
+            [
+                AVVideoCodecKey: AVVideoCodecType.h264,
+                AVVideoWidthKey: dimensions.width,
+                AVVideoHeightKey: dimensions.height
+            ]
         let audioSettings = audioOutput.recommendedAudioSettingsForAssetWriter(writingTo: .mp4) ??
             [
                 AVFormatIDKey: kAudioFormatMPEG4AAC,
@@ -493,6 +495,10 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
         let isRecording = recordingSession != nil && !(recordingSession?.isPaused ?? false)
         let now = CFAbsoluteTimeGetCurrent()
         if !isRecording, now - lastPreviewTimestamp < performanceProfile.previewFrameInterval {
+            return
+        }
+
+        if !virtualBackgroundEnabled && !isRecording {
             return
         }
 
@@ -730,6 +736,17 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
         default:
             return (2, device.localizedName)
         }
+    }
+
+    private func preferredVideoPixelFormat() -> Int {
+        let availableFormats = Set(videoOutput.availableVideoPixelFormatTypes)
+        if availableFormats.contains(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) {
+            return Int(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)
+        }
+        if availableFormats.contains(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
+            return Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)
+        }
+        return Int(kCVPixelFormatType_32BGRA)
     }
 }
 

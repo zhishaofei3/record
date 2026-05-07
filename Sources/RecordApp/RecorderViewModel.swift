@@ -1,3 +1,4 @@
+import AVFoundation
 import AppKit
 import Foundation
 import RecordCore
@@ -101,6 +102,10 @@ final class RecorderViewModel: ObservableObject {
 
     var selectedAudioDeviceName: String {
         audioDevices.first(where: { $0.id == selectedAudioDeviceID })?.name ?? "Unavailable"
+    }
+
+    var previewSession: AVCaptureSession {
+        engine.previewSession
     }
 
     func availability(for preset: ResolutionPreset) -> ResolutionAvailability {

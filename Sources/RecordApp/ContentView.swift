@@ -28,17 +28,22 @@ struct ContentView: View {
             RoundedRectangle(cornerRadius: 24, style: .continuous)
                 .fill(Color.black.opacity(0.88))
 
-            if let image = viewModel.previewImage {
+            CameraPreviewView(session: viewModel.previewSession)
+                .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+
+            if viewModel.virtualBackgroundEnabled, let image = viewModel.previewImage {
                 Image(nsImage: image)
                     .resizable()
                     .scaledToFill()
                     .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-            } else {
+            }
+
+            if viewModel.virtualBackgroundEnabled && viewModel.previewImage == nil {
                 VStack(spacing: 12) {
                     Image(systemName: "video")
                         .font(.system(size: 48, weight: .semibold))
                         .foregroundStyle(.white.opacity(0.7))
-                    Text("Waiting for camera preview")
+                    Text("Warming up virtual background")
                         .foregroundStyle(.white.opacity(0.82))
                 }
             }
