@@ -339,37 +339,48 @@ public final class RecorderEngine: NSObject, @unchecked Sendable {
 
         let support = Self.makeResolutionSupport(for: videoDevice)
         let decision = support.decision(for: requestedPreset)
+        let needsCaptureReconfiguration =
+            selectedVideoDeviceID != videoDevice.uniqueID ||
+            selectedAudioDeviceID != audioDevice.uniqueID ||
+            currentResolutionDecision.actual != decision.actual ||
+            activeVideoInput == nil ||
+            activeAudioInput == nil
 
-        session.beginConfiguration()
-        defer { session.commitConfiguration() }
+        if needsCaptureReconfiguration {
+            session.beginConfiguration()
+            defer { session.commitConfiguration() }
 
-        if let activeVideoInput {
-            session.removeInput(activeVideoInput)
+            if let activeVideoInput {
+                session.removeInput(activeVideoInput)
+            }
+
+            if let activeAudioInput {
+                session.removeInput(activeAudioInput)
+            }
+
+            let newVideoInput = try AVCaptureDeviceInput(device: videoDevice)
+            let newAudioInput = try AVCaptureDeviceInput(device: audioDevice)
+
+            guard session.canAddInput(newVideoInput), session.canAddInput(newAudioInput) else {
+                throw RecorderEngineError.cannotConfigureInputs
+            }
+
+            session.addInput(newVideoInput)
+            session.addInput(newAudioInput)
+            activeVideoInput = newVideoInput
+            activeAudioInput = newAudioInput
+
+            configureOutputsIfNeeded()
+
+            if session.canSetSessionPreset(decision.actual.sessionPreset) {
+                session.sessionPreset = decision.actual.sessionPreset
+            }
+
+            if selectedVideoDeviceID != videoDevice.uniqueID || currentResolutionDecision.actual != decision.actual {
+                segmentationProcessor.reset()
+            }
         }
 
-        if let activeAudioInput {
-            session.removeInput(activeAudioInput)
-        }
-
-        let newVideoInput = try AVCaptureDeviceInput(device: videoDevice)
-        let newAudioInput = try AVCaptureDeviceInput(device: audioDevice)
-
-        guard session.canAddInput(newVideoInput), session.canAddInput(newAudioInput) else {
-            throw RecorderEngineError.cannotConfigureInputs
-        }
-
-        session.addInput(newVideoInput)
-        session.addInput(newAudioInput)
-        activeVideoInput = newVideoInput
-        activeAudioInput = newAudioInput
-
-        configureOutputsIfNeeded()
-
-        if session.canSetSessionPreset(decision.actual.sessionPreset) {
-            session.sessionPreset = decision.actual.sessionPreset
-        }
-
-        segmentationProcessor.reset()
         selectedVideoDeviceID = videoDevice.uniqueID
         selectedAudioDeviceID = audioDevice.uniqueID
         currentResolutionDecision = decision
